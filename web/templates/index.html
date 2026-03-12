@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inclu-IA - Subtitulos en vivo</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <main class="app" data-theme="light" data-font="m">
+      <header class="panel">
+        <div>
+          <h1>Inclu-IA</h1>
+          <p id="networkHint" class="muted">Conectando...</p>
+        </div>
+        <span id="statusPill" class="pill">Inicializando</span>
+      </header>
+
+      <section class="panel controls" aria-label="Controles de visualizacion">
+        <label for="fontSize">Tamano</label>
+        <select id="fontSize">
+          <option value="s">S</option>
+          <option value="m" selected>M</option>
+          <option value="l">L</option>
+        </select>
+
+        <button id="contrastToggle" type="button">Alto contraste</button>
+        <button id="clearBtn" type="button">Limpiar historial</button>
+      </section>
+
+      <section class="panel live" aria-live="polite" aria-atomic="true">
+        <h2>Subtitulo en vivo</h2>
+        <p id="liveCaption" class="caption-live">Esperando audio...</p>
+      </section>
+
+      <section class="panel history" aria-live="polite" aria-label="Historial de subtitulos">
+        <div class="history-title">
+          <h2>Historial</h2>
+          <span id="sourceTag" class="tag">source: -</span>
+        </div>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </main>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+[Unit]
+Description=Inclu-IA captions server
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+Group=audio
+WorkingDirectory=/home/pi/Inclu-IA/software
+EnvironmentFile=/home/pi/Inclu-IA/software/.env
+ExecStart=/home/pi/Inclu-IA/software/.venv/bin/python /home/pi/Inclu-IA/software/server.py
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
