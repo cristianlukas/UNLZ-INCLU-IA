@@ -203,6 +203,7 @@ button:hover {
 .history-item {
   border-left: 3px solid var(--accent);
   background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%);
+  color: var(--text);
   padding: 0.45rem 0.55rem;
   border-radius: 8px;
   font-size: var(--history-size);
