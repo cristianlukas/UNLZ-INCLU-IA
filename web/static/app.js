@@ -43,7 +43,7 @@
     };
 
     const label = map[stateName] || stateName || "Desconocido";
-    statusPill.textContent = detail ? `${label}: ${detail}` : label;
+    statusPill.textContent = label;
 
     if (stateName === "error") {
       statusPill.style.background = "#ffe8e8";

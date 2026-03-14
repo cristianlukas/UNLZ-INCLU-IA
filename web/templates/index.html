@@ -15,7 +15,6 @@
           <div class="title-badge">
             <h1>Inclu-IA</h1>
             <div class="badge-menu-row">
-              <span id="statusPill" class="pill">Inicializando</span>
               <div class="header-menu">
                 <button id="menuToggle" type="button">⚙️</button>
                 <div class="menu-content">
@@ -35,7 +34,10 @@
       </header>
 
       <section class="panel live" aria-live="polite" aria-atomic="true">
-        <h2>Subtitulo en vivo</h2>
+        <div class="live-header">
+          <h2>Subtitulo en vivo</h2>
+          <span id="statusPill" class="pill">Inicializando</span>
+        </div>
         <p id="liveCaption" class="caption-live">Esperando audio...</p>
       </section>
 

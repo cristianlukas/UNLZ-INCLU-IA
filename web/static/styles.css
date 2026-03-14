@@ -161,6 +161,19 @@ button:hover {
   background: var(--live-bg);
 }
 
+.live-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.live-header h2 {
+  margin: 0;
+  font-size: clamp(0.2rem, 5vw, 1.2rem); /* mínimo 1rem, máximo 1.2rem, escala según ancho */
+  line-height: 1; /* asegura que el texto quede centrado verticalmente */
+}
+
 .caption-live {
   font-weight: 700;
   line-height: 1.35;
