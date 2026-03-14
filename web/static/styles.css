@@ -17,7 +17,7 @@
   --text: #f7f8ff;
   --muted: #c6c9dc;
   --accent: #f6d94f;
-  --accent-strong: #ffec8c;
+  --accent-strong: #d1af06;
   --border: #3a3e53;
   --live-bg: #171a25;
   --orb-a: #1b2238;
@@ -55,10 +55,41 @@ body {
   box-shadow: 0 8px 24px rgba(15, 35, 93, 0.08);
 }
 
+.header-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title-badge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.title-badge h1 {
+  margin: 0;
+}
+
+#networkHint {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+#networkHint strong {
+  font-weight: 700;
+  color: inherit;
+}
+
 h1,
 h2,
 p {
   margin: 0;
+  color: var(--text)
 }
 
 h1 {
@@ -134,11 +165,16 @@ button:hover {
   min-height: 3.2rem;
 }
 
+.history-title h2 {
+  margin: 0;
+  line-height: 1.2;
+}
+
 .history-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.7rem;
+  justify-content: space-between;
+  padding-bottom: 0.3rem;
 }
 
 .tag {

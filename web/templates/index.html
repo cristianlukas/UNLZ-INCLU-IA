@@ -10,11 +10,13 @@
   <body>
     <main class="app" data-theme="light" data-font="m">
       <header class="panel">
-        <div>
-          <h1>Inclu-IA</h1>
+        <div class="header-content">
+          <div class="title-badge">
+            <h1>Inclu-IA</h1>
+            <span id="statusPill" class="pill">Inicializando</span>
+          </div>
           <p id="networkHint" class="muted">Conectando...</p>
         </div>
-        <span id="statusPill" class="pill">Inicializando</span>
       </header>
 
       <section class="panel controls" aria-label="Controles de visualizacion">
@@ -26,7 +28,6 @@
         </select>
 
         <button id="contrastToggle" type="button">Alto contraste</button>
-        <button id="clearBtn" type="button">Limpiar historial</button>
       </section>
 
       <section class="panel live" aria-live="polite" aria-atomic="true">
@@ -35,10 +36,17 @@
       </section>
 
       <section class="panel history" aria-live="polite" aria-label="Historial de subtitulos">
-        <div class="history-title">
+        <!-- <div class="history-title">
           <h2>Historial</h2>
           <span id="sourceTag" class="tag">source: -</span>
-        </div>
+          <button id="clearBtn" type="button">Limpiar 🗑️</button>
+        </div> -->
+
+        <div class="history-title">
+          <h2 class="title-left">Historial</h2>
+          <span id="sourceTag" class="tag">source: -</span>
+          <button id="clearBtn" type="button">Limpiar 🗑️</button>
+      </div>
         <ul id="historyList" class="history-list"></ul>
       </section>
     </main>

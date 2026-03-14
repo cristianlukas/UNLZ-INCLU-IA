@@ -71,13 +71,13 @@
 
     item.appendChild(ts);
     item.appendChild(content);
-    historyList.appendChild(item);
+    // historyList.appendChild(item);
+    historyList.insertBefore(item, historyList.firstChild);
 
     if (historyList.children.length > 300) {
       historyList.removeChild(historyList.firstElementChild);
     }
-
-    historyList.scrollTop = historyList.scrollHeight;
+    // historyList.scrollTop = historyList.scrollHeight;
   };
 
   const onCaption = (caption) => {
@@ -105,9 +105,12 @@
       if (!response.ok) return;
       const cfg = await response.json();
 
+      // const url = cfg.ap_url || window.location.origin;
+      // const ssid = cfg.ap_ssid ? `Para empezar conectate al WiFi: ${cfg.ap_ssid}` : "WiFi local";
+      // networkHint.textContent = `${ssid} | e ingresa en el navegador la URL: ${url}`;
       const url = cfg.ap_url || window.location.origin;
-      const ssid = cfg.ap_ssid ? `WiFi: ${cfg.ap_ssid}` : "WiFi local";
-      networkHint.textContent = `${ssid} | URL: ${url}`;
+      const ssid = cfg.ap_ssid ? `Para empezar conectate al WiFi: <strong>${cfg.ap_ssid}</strong>` : "WiFi local";
+      networkHint.innerHTML = `${ssid}<br>Abrí en tu navegador: <strong>${url}</strong>`;
       sourceTag.textContent = `source: ${cfg.active_source || "-"}`;
     } catch {
       networkHint.textContent = "Modo local";
@@ -116,6 +119,7 @@
 
   const startDemoMode = () => {
     setStatus("idle", "Modo demo local");
+
     const lines = [
       "Demo local activa.",
       "No hay backend Socket.IO disponible.",
@@ -123,11 +127,30 @@
     ];
 
     let idx = 0;
+
     setInterval(() => {
       const text = lines[idx % lines.length];
-      idx += 1;
-      onCaption({ text, is_final: true, t_server_ms: Date.now(), source: "demo" });
-    }, 1800);
+      idx++;
+
+      // partial
+      onCaption({
+        text,
+        is_final: false,
+        t_server_ms: Date.now(),
+        source: "demo"
+      });
+
+      // final después de 1 segundo
+      setTimeout(() => {
+        onCaption({
+          text,
+          is_final: true,
+          t_server_ms: Date.now(),
+          source: "demo"
+        });
+      }, 1000);
+
+    }, 2500);
   };
 
   const connectSocket = () => {
