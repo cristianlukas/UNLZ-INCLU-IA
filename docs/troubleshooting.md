@@ -52,3 +52,9 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 
 - No usar TKIP.
 - Cambiar password por una fuerte antes de demo publica.
+## Console muestra GET /socket.io/socket.io.js 400
+
+- Causa tipica: cliente JS de Socket.IO no compatible o path legado.
+- En este repo el cliente correcto es local: /static/vendor/socket.io.min.js.
+- Si el navegador mantiene cache viejo, forzar recarga con Ctrl+F5.
+

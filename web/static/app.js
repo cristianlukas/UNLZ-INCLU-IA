@@ -9,9 +9,7 @@
   const contrastToggle = document.getElementById("contrastToggle");
   const clearBtn = document.getElementById("clearBtn");
 
-  const state = {
-    latestSource: "-",
-  };
+  let socket = null;
 
   const savedFont = localStorage.getItem("incluia_font");
   if (savedFont && ["s", "m", "l"].includes(savedFont)) {
@@ -86,13 +84,13 @@
     }
 
     if (caption.source) {
-      state.latestSource = caption.source;
       sourceTag.textContent = `source: ${caption.source}`;
     }
 
     if (caption.is_final) {
       appendHistoryItem(caption);
-      liveCaption.textContent = "";
+      // Keep the last final caption visible in the live line.
+      liveCaption.textContent = caption.text;
       return;
     }
 
@@ -136,7 +134,7 @@
       return;
     }
 
-    const socket = io({
+    socket = io({
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
@@ -150,6 +148,10 @@
 
     socket.on("disconnect", () => {
       setStatus("error", "Desconectado, reintentando");
+    });
+
+    socket.on("connect_error", (err) => {
+      setStatus("error", `Socket.IO: ${err?.message || "fallo de conexion"}`);
     });
 
     socket.on("status", (payload) => {
@@ -169,15 +171,6 @@
       clearHistoryUI();
       liveCaption.textContent = "";
     });
-
-    clearBtn.addEventListener("click", async () => {
-      socket.emit("clear_history");
-      try {
-        await fetch("/api/clear", { method: "POST" });
-      } catch {
-        // Best effort only.
-      }
-    });
   };
 
   fontSize.addEventListener("change", () => {
@@ -191,8 +184,19 @@
     localStorage.setItem("incluia_theme", nextTheme);
   });
 
-  clearBtn.addEventListener("click", () => {
+  clearBtn.addEventListener("click", async () => {
     clearHistoryUI();
+    liveCaption.textContent = "";
+
+    if (socket) {
+      socket.emit("clear_history");
+    }
+
+    try {
+      await fetch("/api/clear", { method: "POST" });
+    } catch {
+      // Best effort only.
+    }
   });
 
   loadConfig();
