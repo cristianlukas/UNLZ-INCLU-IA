@@ -13,22 +13,25 @@
         <div class="header-content">
           <div class="title-badge">
             <h1>Inclu-IA</h1>
-            <span id="statusPill" class="pill">Inicializando</span>
+            <div class="badge-menu-row">
+              <span id="statusPill" class="pill">Inicializando</span>
+              <div class="header-menu">
+                <button id="menuToggle" type="button">⚙️</button>
+                <div class="menu-content">
+                  <label for="fontSize">Tamano</label>
+                  <select id="fontSize">
+                    <option value="s">S</option>
+                    <option value="m" selected>M</option>
+                    <option value="l">L</option>
+                  </select>
+                  <button id="contrastToggle" type="button">Alto contraste</button>
+                </div>
+              </div>
+            </div>
           </div>
           <p id="networkHint" class="muted">Conectando...</p>
         </div>
       </header>
-
-      <section class="panel controls" aria-label="Controles de visualizacion">
-        <label for="fontSize">Tamano</label>
-        <select id="fontSize">
-          <option value="s">S</option>
-          <option value="m" selected>M</option>
-          <option value="l">L</option>
-        </select>
-
-        <button id="contrastToggle" type="button">Alto contraste</button>
-      </section>
 
       <section class="panel live" aria-live="polite" aria-atomic="true">
         <h2>Subtitulo en vivo</h2>
@@ -36,16 +39,10 @@
       </section>
 
       <section class="panel history" aria-live="polite" aria-label="Historial de subtitulos">
-        <!-- <div class="history-title">
-          <h2>Historial</h2>
-          <span id="sourceTag" class="tag">source: -</span>
-          <button id="clearBtn" type="button">Limpiar 🗑️</button>
-        </div> -->
-
         <div class="history-title">
           <h2 class="title-left">Historial</h2>
           <span id="sourceTag" class="tag">source: -</span>
-          <button id="clearBtn" type="button">Limpiar 🗑️</button>
+          <button id="clearBtn" type="button">Limpiar</button>
       </div>
         <ul id="historyList" class="history-list"></ul>
       </section>

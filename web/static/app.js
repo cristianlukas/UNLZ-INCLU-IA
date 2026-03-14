@@ -8,6 +8,7 @@
   const fontSize = document.getElementById("fontSize");
   const contrastToggle = document.getElementById("contrastToggle");
   const clearBtn = document.getElementById("clearBtn");
+  const menuToggle = document.getElementById("menuToggle");
 
   const state = {
     latestSource: "-",
@@ -216,6 +217,10 @@
 
   clearBtn.addEventListener("click", () => {
     clearHistoryUI();
+  });
+
+  menuToggle.addEventListener("click", () => {
+    menuToggle.parentElement.classList.toggle("open");
   });
 
   loadConfig();

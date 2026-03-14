@@ -55,6 +55,7 @@ body {
   box-shadow: 0 8px 24px rgba(15, 35, 93, 0.08);
 }
 
+/* Header */
 .header-content {
   display: flex;
   flex-direction: column;
@@ -85,11 +86,10 @@ body {
   color: inherit;
 }
 
-h1,
-h2,
-p {
+/* Typography */
+h1, h2, p {
   margin: 0;
-  color: var(--text)
+  color: var(--text);
 }
 
 h1 {
@@ -106,6 +106,7 @@ h2 {
   margin-top: 0.25rem;
 }
 
+/* Badge */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -125,6 +126,7 @@ header.panel {
   gap: 0.75rem;
 }
 
+/* Controls */
 .controls {
   display: flex;
   align-items: center;
@@ -137,8 +139,7 @@ label {
   color: var(--muted);
 }
 
-select,
-button {
+select, button {
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--panel);
@@ -155,6 +156,7 @@ button:hover {
   border-color: var(--accent);
 }
 
+/* Live section */
 .live {
   background: var(--live-bg);
 }
@@ -163,11 +165,12 @@ button:hover {
   font-weight: 700;
   line-height: 1.35;
   min-height: 3.2rem;
+  font-size: var(--caption-size);
 }
 
-.history-title h2 {
-  margin: 0;
-  line-height: 1.2;
+/* History section */
+#clearBtn {
+  padding: 0.25rem 0.5rem;
 }
 
 .history-title {
@@ -175,6 +178,11 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.3rem;
+}
+
+.history-title h2 {
+  margin: 0;
+  line-height: 1.2;
 }
 
 .tag {
@@ -197,6 +205,7 @@ button:hover {
   background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%);
   padding: 0.45rem 0.55rem;
   border-radius: 8px;
+  font-size: var(--history-size);
 }
 
 .item-time {
@@ -206,6 +215,7 @@ button:hover {
   margin-bottom: 0.15rem;
 }
 
+/* Font sizes */
 .app[data-font="s"] {
   --caption-size: clamp(1.1rem, 2.8vw, 1.55rem);
   --history-size: clamp(0.96rem, 2.2vw, 1.1rem);
@@ -221,14 +231,7 @@ button:hover {
   --history-size: clamp(1.16rem, 3.2vw, 1.45rem);
 }
 
-.caption-live {
-  font-size: var(--caption-size);
-}
-
-.history-item {
-  font-size: var(--history-size);
-}
-
+/* Media queries */
 @media (max-width: 640px) {
   .app {
     padding: 0.65rem;
@@ -238,4 +241,41 @@ button:hover {
     border-radius: 12px;
     padding: 0.75rem;
   }
+}
+
+/* Header menu */
+#menuToggle {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.badge-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-menu {
+  position: relative;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  top: 110%;
+  right: 0;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem;
+  box-shadow: 0 8px 24px rgba(15,35,93,0.08);
+  gap: 0.5rem;
+}
+
+.header-menu.open .menu-content {
+  display: flex;
 }
