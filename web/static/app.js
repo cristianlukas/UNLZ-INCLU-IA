@@ -72,13 +72,13 @@
 
     item.appendChild(ts);
     item.appendChild(content);
-    // historyList.appendChild(item);
-    historyList.insertBefore(item, historyList.firstChild);
+    // historyList.appendChild(item);                       // Para que el mas nuevo este abajo
+    historyList.insertBefore(item, historyList.firstChild); // Para que el mas nuevo este arriba
 
     if (historyList.children.length > 300) {
       historyList.removeChild(historyList.firstElementChild);
     }
-    // historyList.scrollTop = historyList.scrollHeight;
+    // historyList.scrollTop = historyList.scrollHeight;    // Para que al llegar un dato nuevo el scroll vaya al mas nuevo automaticamentes
   };
 
   const onCaption = (caption) => {
@@ -111,7 +111,7 @@
       // networkHint.textContent = `${ssid} | e ingresa en el navegador la URL: ${url}`;
       const url = cfg.ap_url || window.location.origin;
       const ssid = cfg.ap_ssid ? `Para empezar conectate al WiFi: <strong>${cfg.ap_ssid}</strong>` : "WiFi local";
-      networkHint.innerHTML = `${ssid}<br>Abrí en tu navegador: <strong>${url}</strong>`;
+      networkHint.innerHTML = `${ssid}<br>Y abrí en tu navegador: <strong>${url}</strong>`;
       sourceTag.textContent = `source: ${cfg.active_source || "-"}`;
     } catch {
       networkHint.textContent = "Modo local";

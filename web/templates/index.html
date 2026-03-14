@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Inclu-IA - Subtitulos en vivo</title>
     <link rel="stylesheet" href="/static/styles.css" />
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script>    No me anda en windows -->
+     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
   </head>
   <body>
     <main class="app" data-theme="light" data-font="m">
@@ -18,7 +19,7 @@
               <div class="header-menu">
                 <button id="menuToggle" type="button">⚙️</button>
                 <div class="menu-content">
-                  <label for="fontSize">Tamano</label>
+                  <label for="fontSize">Tamaño de letra</label>
                   <select id="fontSize">
                     <option value="s">S</option>
                     <option value="m" selected>M</option>

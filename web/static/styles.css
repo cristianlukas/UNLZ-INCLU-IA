@@ -78,7 +78,7 @@ body {
   margin-top: 0.5rem;
   font-size: 0.85rem;
   color: var(--muted);
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
 #networkHint strong {
