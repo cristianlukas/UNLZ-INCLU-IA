@@ -84,6 +84,8 @@ Inclu-IA/
 
 ## Quick start local (sin hardware)
 
+### Opcion A: Linux / macOS
+
 1. Crear entorno virtual e instalar dependencias:
 
 ```bash
@@ -104,6 +106,67 @@ python server.py
 - `http://127.0.0.1:5000`
 
 La UI recibe subtitulos simulados por Socket.IO y permite validar flujo frontend/backend.
+
+---
+
+### Opcion B: Windows PowerShell
+
+1. Crear entorno virtual:
+
+```powershell
+cd software
+python -m venv .venv
+```
+
+2. Activar entorno virtual:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+3. Instalar dependencias:
+
+```powershell
+pip install -r requirements.txt
+```
+
+4. Levantar servidor en modo simulador (default):
+
+```powershell
+python server.py
+```
+
+5. Abrir:
+
+- `http://127.0.0.1:5000`
+
+La UI recibe subtitulos simulados por Socket.IO y permite validar flujo frontend/backend.
+
+---
+
+### Opcion C: Windows CMD
+
+```cmd
+cd software
+python -m venv .venv
+.\.venv\Scripts\activate.bat
+pip install -r requirements.txt
+python server.py
+```
+
+## Nota para Windows: error al activar el entorno virtual
+
+Si en PowerShell aparece un error relacionado con permisos o `Activate.ps1`, ejecutar una sola vez:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+Luego cerrar y volver a abrir PowerShell, y activar nuevamente:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
 ## Quick start Raspberry Pi
 
