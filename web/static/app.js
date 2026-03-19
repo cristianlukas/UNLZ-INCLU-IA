@@ -202,6 +202,18 @@
     localStorage.setItem("incluia_font", fontSize.value);
   });
 
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/static/serviceWorker.js')
+        .then(reg => {
+          console.log('Service Worker registrado correctamente:', reg);
+        })
+        .catch(err => {
+          console.error('Error al registrar Service Worker:', err);
+        });
+    });
+  }
+
   contrastToggle.addEventListener("click", () => {
     const nextTheme = appEl.dataset.theme === "contrast" ? "light" : "contrast";
     appEl.dataset.theme = nextTheme;

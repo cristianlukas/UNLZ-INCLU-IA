@@ -4,8 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Inclu-IA - Subtitulos en vivo</title>
+    <link rel="icon" href="/static/icon-128.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/static/icon-128.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/static/icon-512.png" />
+    
+    <!-- Soporte PWA -->
+    <!-- <link rel="manifest" href="/manifest.json" /> -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#db4938" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+  
     <link rel="stylesheet" href="/static/styles.css" />
-    <script src="/static/vendor/socket.io.min.js"></script>
+    <script src="/static/vendor/socket.io.min.js" defer></script>
   </head>
   <body>
     <main class="app" data-theme="light" data-font="m">
