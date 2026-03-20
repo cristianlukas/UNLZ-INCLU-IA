@@ -24,6 +24,19 @@
   --orb-b: #1c2f2a;
 }
 
+.app[data-theme="oled"] {
+  --bg: #000000;
+  --panel: #000000;
+  --text: #ffffff;
+  --muted: #808080;
+  --accent: #ffffff;
+  --accent-strong: #000000;
+  --border: #2a2a2a;
+  --live-bg: #000000;
+  --orb-a: #000000;
+  --orb-b: #000000;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -137,6 +150,7 @@ header.panel {
 label {
   font-size: 0.9rem;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 select, button {
@@ -144,8 +158,8 @@ select, button {
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
-  padding: 0.45rem 0.7rem;
-  font-size: 0.95rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
 }
 
 button {
@@ -158,6 +172,8 @@ button:hover {
 
 /* Live section */
 .live {
+  height: 30vh; /* Live ocupa 45% de la altura de la pantalla */
+  min-height: 200px; /* opcional para pantallas muy chicas */
   background: var(--live-bg);
 }
 
@@ -277,16 +293,29 @@ button:hover {
 }
 
 .menu-content {
-  display: none;
+  display: none;              /* oculto hasta abrir */
   position: absolute;
   top: 110%;
   right: 0;
-  flex-direction: column;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.5rem;
   box-shadow: 0 8px 24px rgba(15,35,93,0.08);
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.menu-content label,
+.menu-content select,
+.menu-content button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu-content > div {
+  display: flex;             /* cada fila horizontal */
+  align-items: center;
   gap: 0.5rem;
 }
 

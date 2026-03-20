@@ -6,7 +6,7 @@
   const historyList = document.getElementById("historyList");
   const sourceTag = document.getElementById("sourceTag");
   const fontSize = document.getElementById("fontSize");
-  const contrastToggle = document.getElementById("contrastToggle");
+  const contrastMode = document.getElementById("contrastMode");
   const clearBtn = document.getElementById("clearBtn");
   const menuToggle = document.getElementById("menuToggle");
 
@@ -21,7 +21,14 @@
   const savedTheme = localStorage.getItem("incluia_theme");
   if (savedTheme === "contrast") {
     appEl.dataset.theme = "contrast";
+  } else if (savedTheme === "oled") {
+    appEl.dataset.theme = "oled";
   }
+
+  contrastMode.value =
+  savedTheme === "light" ? "normal" :
+  savedTheme === "contrast" ? "high" :
+  "oled";
 
   const fmtTime = (ms) => {
     if (!ms) return "";
@@ -197,11 +204,6 @@
     });
   };
 
-  fontSize.addEventListener("change", () => {
-    appEl.dataset.font = fontSize.value;
-    localStorage.setItem("incluia_font", fontSize.value);
-  });
-
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/static/serviceWorker.js')
@@ -214,10 +216,21 @@
     });
   }
 
-  contrastToggle.addEventListener("click", () => {
-    const nextTheme = appEl.dataset.theme === "contrast" ? "light" : "contrast";
-    appEl.dataset.theme = nextTheme;
-    localStorage.setItem("incluia_theme", nextTheme);
+  fontSize.addEventListener("change", () => {
+    appEl.dataset.font = fontSize.value;
+    localStorage.setItem("incluia_font", fontSize.value);
+  });
+
+  contrastMode.addEventListener("change", (e) => {
+    const value = e.target.value;
+
+    let theme;
+    if (value === "normal") theme = "light";
+    else if (value === "high") theme = "contrast";
+    else if (value === "oled") theme = "oled";
+
+    appEl.dataset.theme = theme;
+    localStorage.setItem("incluia_theme", theme);
   });
 
   clearBtn.addEventListener("click", async () => {
