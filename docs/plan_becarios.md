@@ -6,6 +6,7 @@ Planes individuales detallados:
 
 - `docs/plan_eluney_backend.md`
 - `docs/plan_patricio_frontend.md`
+- `docs/registro_avances.md` (Para asentar progreso y bloqueos semanales)
 
 ## 1) Objetivo final
 
