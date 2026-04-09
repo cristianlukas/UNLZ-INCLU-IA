@@ -19,6 +19,7 @@ class FasterWhisperTranscriber(Transcriber):
         phrase_time_limit_s: int,
         vad_filter: bool,
         device_index: int | None,
+        sample_rate: int,
     ) -> None:
         self.model_size = model_size
         self.compute_type = compute_type
@@ -26,6 +27,7 @@ class FasterWhisperTranscriber(Transcriber):
         self.phrase_time_limit_s = phrase_time_limit_s
         self.vad_filter = vad_filter
         self.device_index = device_index
+        self.sample_rate = sample_rate
 
     def run(
         self,
@@ -56,9 +58,17 @@ class FasterWhisperTranscriber(Transcriber):
         recognizer = sr.Recognizer()
         recognizer.dynamic_energy_threshold = True
 
-        with sr.Microphone(sample_rate=16000, device_index=self.device_index) as source:
+        with sr.Microphone(
+            sample_rate=self.sample_rate,
+            device_index=self.device_index,
+        ) as source:
             recognizer.adjust_for_ambient_noise(source, duration=1)
-            on_status(StatusEvent(state="listening", detail="Microfono listo"))
+            on_status(
+                StatusEvent(
+                    state="listening",
+                    detail=f"Microfono listo ({self.sample_rate} Hz)",
+                )
+            )
 
             while not stop_event.is_set():
                 try:

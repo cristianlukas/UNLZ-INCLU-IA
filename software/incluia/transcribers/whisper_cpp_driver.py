@@ -12,6 +12,34 @@ from .base import CaptionCallback, StatusCallback, Transcriber
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 TIMESTAMP_RE = re.compile(r"^\s*\[[^\]]+\]\s*(.+)$")
+NOISE_PATTERNS = (
+    re.compile(r"^(?:main|system_info|whisper_|wav_|audio_|capture_)\s*:?", re.IGNORECASE),
+    re.compile(r"^(?:processing|listening|init(?:ializ\w*)?|loaded)\b", re.IGNORECASE),
+    re.compile(r"^(?:n_threads|n_processors|language)\s*=", re.IGNORECASE),
+)
+
+
+def _extract_caption_text(raw_line: str) -> str | None:
+    clean = ANSI_RE.sub("", raw_line).strip()
+    if not clean:
+        return None
+
+    match = TIMESTAMP_RE.match(clean)
+    text = match.group(1).strip() if match else clean
+    if not text:
+        return None
+
+    for pattern in NOISE_PATTERNS:
+        if pattern.match(text):
+            return None
+
+    if text.lower().startswith("error"):
+        return text
+
+    if not match and ":" in text and len(text.split()) <= 4:
+        return None
+
+    return text
 
 
 class WhisperCppTranscriber(Transcriber):
@@ -90,12 +118,9 @@ class WhisperCppTranscriber(Transcriber):
                     time.sleep(0.05)
                     continue
 
-                clean = ANSI_RE.sub("", line).strip()
-                if not clean:
+                text = _extract_caption_text(line)
+                if not text:
                     continue
-
-                match = TIMESTAMP_RE.match(clean)
-                text = match.group(1).strip() if match else clean
 
                 if text.lower().startswith("error"):
                     on_status(StatusEvent(state="error", detail=text))

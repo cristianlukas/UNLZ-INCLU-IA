@@ -51,3 +51,10 @@ journalctl -u inclu-ia.service -f
 - `simulator`: para desarrollo frontend y pruebas de red.
 - `faster_whisper`: pipeline Python simple para MVP.
 - `whisper_cpp`: opcion para tuning de latencia en edge.
+
+## Ajustes utiles de audio en Raspberry Pi
+
+- `INCLUIA_AUDIO_DEVICE_INDEX`: indice de entrada para PyAudio.
+- `INCLUIA_AUDIO_SAMPLE_RATE`: frecuencia del microfono para `faster_whisper` (`16000` por defecto, algunos adaptadores USB requieren `48000`).
+- `INCLUIA_FW_PHRASE_LIMIT_S`: duracion maxima de cada bloque escuchado.
+- `INCLUIA_WCPP_STEP_MS` y `INCLUIA_WCPP_LENGTH_MS`: ventana y paso de `whisper.cpp`.

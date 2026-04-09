@@ -55,6 +55,13 @@ cd /home/pi/Inclu-IA
 bash scripts/download_models.sh base /home/pi/whisper.cpp
 ```
 
+## 4.1) (Opcional) Descargar audios de prueba en espanol
+
+```bash
+cd /home/pi/Inclu-IA
+bash scripts/download_test_audio.sh
+```
+
 ## 5) Activar servicio
 
 ```bash

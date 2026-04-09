@@ -24,6 +24,7 @@ def build_transcriber(config: AppConfig) -> Transcriber:
             phrase_time_limit_s=config.faster_phrase_time_limit_s,
             vad_filter=config.faster_vad_filter,
             device_index=config.faster_device_index,
+            sample_rate=config.faster_sample_rate,
         )
 
     if driver in {"whisper_cpp", "whisper.cpp", "whisper-cpp"}:

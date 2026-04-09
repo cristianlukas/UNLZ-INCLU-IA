@@ -32,6 +32,7 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 
 - Revisar que el microfono este visible para ALSA/PyAudio.
 - Definir `INCLUIA_AUDIO_DEVICE_INDEX` con un indice valido.
+- Si el adaptador USB trabaja a otra frecuencia, definir `INCLUIA_AUDIO_SAMPLE_RATE` (por ejemplo `48000`).
 - Probar primero con microfono USB antes de Bluetooth.
 
 ## whisper.cpp falla por binario/modelo
@@ -44,6 +45,7 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 ## Latencia alta
 
 - Reducir modelo (`tiny` o `base`).
+- En Raspberry Pi 4, `small` suele mejorar precision pero aumentar mucho la demora; no asumir tiempo real.
 - En `faster_whisper`, bajar `INCLUIA_FW_PHRASE_LIMIT_S`.
 - En `whisper_cpp`, ajustar `INCLUIA_WCPP_STEP_MS` y `INCLUIA_WCPP_LENGTH_MS`.
 - Validar VAD activo (`INCLUIA_FW_VAD=1` o `-vth` en whisper.cpp).

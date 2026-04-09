@@ -27,11 +27,13 @@ Incluye:
 Leer en este orden:
 
 1. [`docs/plan_becarios.md`](docs/plan_becarios.md)
-2. [`docs/plan_eluney_backend.md`](docs/plan_eluney_backend.md)
-3. [`docs/plan_patricio_frontend.md`](docs/plan_patricio_frontend.md)
-4. [`docs/contrato_eventos.md`](docs/contrato_eventos.md)
-5. [`docs/instalacion.md`](docs/instalacion.md)
-6. [`docs/uso.md`](docs/uso.md)
+2. [`docs/guia_eluney_luna_tests_stt.md`](docs/guia_eluney_luna_tests_stt.md)
+3. [`docs/plan_eluney_backend.md`](docs/plan_eluney_backend.md)
+4. [`docs/plan_patricio_frontend.md`](docs/plan_patricio_frontend.md)
+5. [`docs/contrato_eventos.md`](docs/contrato_eventos.md)
+6. [`docs/instalacion.md`](docs/instalacion.md)
+7. [`docs/uso.md`](docs/uso.md)
+8. [`docs/benchmark_raspi4_es.md`](docs/benchmark_raspi4_es.md)
 
 `docs/plan_becarios.md` deja explicitamente documentado:
 

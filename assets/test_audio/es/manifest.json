@@ -1,0 +1,32 @@
+[
+  {
+    "id": "spanish_lesson_1_dialogue_1",
+    "filename": "SpanishL1D1.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/57/SpanishL1D1.ogg",
+    "source_page": "https://en.wikibooks.org/wiki/Spanish/Lesson_1",
+    "license": "Wikimedia Commons, presumed free educational media",
+    "dialect": "es",
+    "notes": "Dialogo corto y claro entre dos personas.",
+    "expected_text": "Hola Roberto como estas yo estoy bien gracias y tu como estas estoy bien hay algo nuevo para contar no mucho adios Roberto adios hasta manana"
+  },
+  {
+    "id": "spanish_lesson_1_dialogue_2",
+    "filename": "SpanishL1D2.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bb/SpanishL1D2.ogg",
+    "source_page": "https://en.wikibooks.org/wiki/Spanish/Lesson_1",
+    "license": "Wikimedia Commons, presumed free educational media",
+    "dialect": "es",
+    "notes": "Dialogo formal de presentacion.",
+    "expected_text": "Buenos dias como se llama usted me llamo Ana Perez y usted como se llama soy Luis Gonzalez encantado encantada"
+  },
+  {
+    "id": "rioplatense_fast_speech",
+    "filename": "Siqueresirte_v1.ogg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Siqueresirte_v1.ogg",
+    "source_page": "https://commons.wikimedia.org/wiki/File:Siqueresirte_v1.ogg",
+    "license": "Public domain",
+    "dialect": "es-AR",
+    "notes": "Ejemplo de habla rioplatense rapida.",
+    "expected_text": "Si queres irte andate yo no te voy a parar"
+  }
+]

@@ -1,5 +1,12 @@
 # Plan individual - Eluney (Backend / Raspberry Pi / STT)
 
+Documento principal de ejecucion:
+
+- `docs/guia_eluney_luna_tests_stt.md`
+
+Este plan corresponde a **Eluney Luna**.
+No confundir con `docs/plan_patricio_frontend.md`, que corresponde a Patricio Garces.
+
 ## Mision
 
 Dejar el backend de Inclu-IA estable en Raspberry Pi, con transcripcion real y operacion continua para clase.
