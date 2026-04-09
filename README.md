@@ -34,6 +34,7 @@ Leer en este orden:
 6. [`docs/instalacion.md`](docs/instalacion.md)
 7. [`docs/uso.md`](docs/uso.md)
 8. [`docs/benchmark_raspi4_es.md`](docs/benchmark_raspi4_es.md)
+9. [`docs/benchmark_alt_asr_es.md`](docs/benchmark_alt_asr_es.md)
 
 `docs/plan_becarios.md` deja explicitamente documentado:
 

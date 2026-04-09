@@ -1,0 +1,36 @@
+{
+  "generated_at_epoch_s": 1775745636.8450642,
+  "language": "es",
+  "rows": [
+    {
+      "sample_id": "spanish_lesson_1_dialogue_1",
+      "filename": "SpanishL1D1.ogg",
+      "audio_seconds": 20.967619,
+      "elapsed_seconds": 11.072872900003858,
+      "realtime_factor": 0.5280939576402957,
+      "expected_token_recall": 1.0,
+      "matched_expected": false,
+      "transcript": "Ya ya lo bueno. Hola Roberto, ¿cómo estás? ¿Cómo estás? Yo estoy bien, gracias. ¿Y tú? ¿Cómo estás? Estoy bien. ¿Hay algo nuevo para contar? No mucho. Adiós, Roberto. Adiós, hasta mañana."
+    },
+    {
+      "sample_id": "spanish_lesson_1_dialogue_2",
+      "filename": "SpanishL1D2.ogg",
+      "audio_seconds": 19.033107,
+      "elapsed_seconds": 7.145051300001796,
+      "realtime_factor": 0.37540120485855494,
+      "expected_token_recall": 1.0,
+      "matched_expected": true,
+      "transcript": "Diana Locchu, B2IN, señor González, and señora Pérez. Buenos días. ¿Cómo se llama usted? Me llamo Ana Pérez. ¿Y usted cómo se llama? Soy Luis González. Encantado. Encantada."
+    },
+    {
+      "sample_id": "rioplatense_fast_speech",
+      "filename": "Siqueresirte_v1.ogg",
+      "audio_seconds": 2.484535,
+      "elapsed_seconds": 1.3013934000045992,
+      "realtime_factor": 0.5237975717808762,
+      "expected_token_recall": 0.8,
+      "matched_expected": false,
+      "transcript": "Si querés irte a andarte, yo no te voy a"
+    }
+  ]
+}

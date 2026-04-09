@@ -14,6 +14,7 @@ Objetivo: medir y dejar documentado el comportamiento de STT en **Raspberry Pi 4
 3. `docs/uso.md`
 4. `docs/troubleshooting.md`
 5. `docs/benchmark_raspi4_es.md`
+6. `docs/benchmark_alt_asr_es.md`
 
 ## Regla de trabajo
 
@@ -74,6 +75,40 @@ bash scripts/run_benchmark_raspi4_es.sh
 Archivo de salida esperado:
 
 - `software/benchmark_results/pi4_faster_whisper_es.json`
+
+## Paso 3.1: correr alternativas a Whisper
+
+Instalacion:
+
+```bash
+cd /home/pi/Inclu-IA
+source software/.venv/bin/activate
+pip install -r software/requirements-alt-asr.txt
+bash scripts/download_vosk_es_model.sh
+```
+
+Moonshine:
+
+```bash
+cd /home/pi/Inclu-IA/software
+source .venv/bin/activate
+python tools/benchmark_moonshine.py \
+  --manifest ../assets/test_audio/es/manifest.json \
+  --audio-dir ../assets/test_audio/es \
+  --output ./benchmark_results/pi4_moonshine_es.json
+```
+
+Vosk:
+
+```bash
+cd /home/pi/Inclu-IA/software
+source .venv/bin/activate
+python tools/benchmark_vosk.py \
+  --manifest ../assets/test_audio/es/manifest.json \
+  --audio-dir ../assets/test_audio/es \
+  --model-path ../assets/models/vosk/vosk-model-small-es-0.42 \
+  --output ./benchmark_results/pi4_vosk_es.json
+```
 
 ## Paso 4: como interpretar el benchmark
 
@@ -167,6 +202,7 @@ Para **Raspberry Pi 4 Model B 8GB**:
 Antes de cerrar esta etapa, dejar documentado:
 
 1. Resultado de `tiny`, `base` y `small` en la Pi.
-2. Driver/modelo recomendado para demo real.
-3. Configuracion valida de microfono.
-4. Problemas encontrados y mitigacion.
+2. Resultado de `Moonshine` y `Vosk` en la Pi.
+3. Driver/modelo recomendado para demo real.
+4. Configuracion valida de microfono.
+5. Problemas encontrados y mitigacion.

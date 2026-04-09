@@ -18,6 +18,7 @@ env/
 *.tmp
 tmp/
 runtime/
+assets/models/
 
 # OS/editor
 .DS_Store
