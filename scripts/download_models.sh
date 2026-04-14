@@ -3,6 +3,8 @@ set -euo pipefail
 
 MODEL="${1:-base}"
 WHISPER_CPP_DIR="${2:-/home/pi/whisper.cpp}"
+BUILD_JOBS="${BUILD_JOBS:-2}"
+BUILD_ALL="${INCLUIA_WCPP_BUILD_ALL:-0}"
 
 echo "Modelo solicitado: ${MODEL}"
 
@@ -15,7 +17,11 @@ cd "${WHISPER_CPP_DIR}"
 
 echo "[2/4] Compilando binarios"
 cmake -S . -B build -DWHISPER_SDL2=ON
-cmake --build build -j
+if [[ "${BUILD_ALL}" == "1" ]]; then
+  cmake --build build -j"${BUILD_JOBS}"
+else
+  cmake --build build --target whisper-stream -j"${BUILD_JOBS}"
+fi
 
 echo "[3/4] Descargando modelo ggml-${MODEL}.bin"
 ./models/download-ggml-model.sh "${MODEL}"

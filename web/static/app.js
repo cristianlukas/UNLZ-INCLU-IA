@@ -108,7 +108,7 @@
   const loadConfig = async () => {
     try {
       const response = await fetch("/api/config");
-      if (!response.ok) return;
+      if (!response.ok) return null;
       const cfg = await response.json();
 
       // const url = cfg.ap_url || window.location.origin;
@@ -118,8 +118,10 @@
       const ssid = cfg.ap_ssid ? `Para utilizarlo en otro dispositivo recorda conectarte al WiFi: <strong>${cfg.ap_ssid}</strong>` : "WiFi local";
       networkHint.innerHTML = `${ssid}<br>Y abrir en el navegador: <strong>${url}</strong>`;
       sourceTag.textContent = `source: ${cfg.active_source || "-"}`;
+      return cfg;
     } catch {
       networkHint.textContent = "Modo local";
+      return null;
     }
   };
 
@@ -159,19 +161,30 @@
     }, 2500);
   };
 
-  const connectSocket = () => {
+  const connectSocket = (cfg = null) => {
     if (typeof io !== "function") {
       startDemoMode();
       return;
     }
 
-    socket = io({
+    const transport = cfg?.socket_transport || "polling";
+    const socketOptions = {
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 10000,
-    });
+    };
+
+    if (transport === "polling") {
+      socketOptions.transports = ["polling"];
+      socketOptions.upgrade = false;
+    } else if (transport === "websocket") {
+      socketOptions.transports = ["websocket"];
+      socketOptions.upgrade = false;
+    }
+
+    socket = io(socketOptions);
 
     socket.on("connect", () => {
       setStatus("idle", "Conectado");
@@ -252,6 +265,7 @@
     menuToggle.parentElement.classList.toggle("open");
   });
 
-  loadConfig();
-  connectSocket();
+  loadConfig().then((cfg) => {
+    connectSocket(cfg);
+  });
 })();

@@ -35,6 +35,8 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
         async_mode="threading",
         logger=False,
         engineio_logger=False,
+        ping_timeout=30,
+        ping_interval=20,
     )
 
     history: deque[dict[str, Any]] = deque(maxlen=max(20, cfg.history_size))
@@ -116,6 +118,7 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
                 "ap_ssid": cfg.ap_ssid,
                 "ap_url": cfg.ap_url,
                 "history_size": cfg.history_size,
+                "socket_transport": cfg.socket_transport,
                 "status": runtime["status"],
             }
         )

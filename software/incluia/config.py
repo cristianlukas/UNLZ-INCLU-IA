@@ -60,7 +60,7 @@ class AppConfig:
     faster_phrase_time_limit_s: int = 4
     faster_vad_filter: bool = True
     faster_device_index: int | None = None
-    faster_sample_rate: int = 16000
+    faster_sample_rate: int | None = None
 
     whisper_cpp_binary: str = "./whisper.cpp/build/bin/whisper-stream"
     whisper_cpp_model: str = "./whisper.cpp/models/ggml-base.bin"
@@ -73,6 +73,7 @@ class AppConfig:
 
     ap_ssid: str = "Inclu-IA_Classroom"
     ap_url: str = "http://192.168.4.1:5000"
+    socket_transport: str = "polling"
 
     @staticmethod
     def from_env() -> "AppConfig":
@@ -92,7 +93,7 @@ class AppConfig:
             faster_phrase_time_limit_s=_as_int(os.getenv("INCLUIA_FW_PHRASE_LIMIT_S"), 4),
             faster_vad_filter=_as_bool(os.getenv("INCLUIA_FW_VAD"), True),
             faster_device_index=_as_opt_int(os.getenv("INCLUIA_AUDIO_DEVICE_INDEX")),
-            faster_sample_rate=_as_int(os.getenv("INCLUIA_AUDIO_SAMPLE_RATE"), 16000),
+            faster_sample_rate=_as_opt_int(os.getenv("INCLUIA_AUDIO_SAMPLE_RATE")),
             whisper_cpp_binary=os.getenv(
                 "INCLUIA_WCPP_BIN", "./whisper.cpp/build/bin/whisper-stream"
             ),
@@ -108,4 +109,5 @@ class AppConfig:
             fallback_to_simulator=_as_bool(os.getenv("INCLUIA_FALLBACK_SIM"), True),
             ap_ssid=os.getenv("INCLUIA_AP_SSID", "Inclu-IA_Classroom"),
             ap_url=os.getenv("INCLUIA_AP_URL", "http://192.168.4.1:5000"),
+            socket_transport=os.getenv("INCLUIA_SOCKET_TRANSPORT", "polling").strip().lower(),
         )

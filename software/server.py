@@ -1,6 +1,12 @@
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
+
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - optional fallback only
+    load_dotenv = None
 
 from incluia.app import create_server
 from incluia.config import AppConfig
@@ -20,6 +26,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    if load_dotenv is not None:
+        env_path = Path(__file__).resolve().parent / ".env"
+        load_dotenv(env_path)
+
     args = parse_args()
     cfg = AppConfig.from_env()
 

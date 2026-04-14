@@ -47,7 +47,7 @@ Salida:
 ## Preparacion en Raspberry Pi 4B 8GB
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo apt update
 sudo apt install -y curl python3 python3-venv python3-pip ffmpeg
 bash scripts/install_backend.sh
@@ -60,7 +60,7 @@ bash scripts/download_vosk_es_model.sh
 ## Benchmark Moonshine en Raspberry Pi
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python tools/benchmark_moonshine.py \
   --manifest ../assets/test_audio/es/manifest.json \
@@ -71,7 +71,7 @@ python tools/benchmark_moonshine.py \
 ## Benchmark Vosk en Raspberry Pi
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python tools/benchmark_vosk.py \
   --manifest ../assets/test_audio/es/manifest.json \

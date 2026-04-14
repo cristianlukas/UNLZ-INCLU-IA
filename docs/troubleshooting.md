@@ -5,7 +5,7 @@
 - Revisar dependencias:
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -33,7 +33,26 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 - Revisar que el microfono este visible para ALSA/PyAudio.
 - Definir `INCLUIA_AUDIO_DEVICE_INDEX` con un indice valido.
 - Si el adaptador USB trabaja a otra frecuencia, definir `INCLUIA_AUDIO_SAMPLE_RATE` (por ejemplo `48000`).
+- Si el backend falla al abrir el microfono, correr `python tools/list_audio_devices.py` y verificar `max_input_channels`.
+- Si `arecord` solo funciona con un canal, usar `-c 1` en la prueba ALSA y fijar el `device_index` correcto en `.env`.
 - Probar primero con microfono USB antes de Bluetooth.
+
+## PyAudio falla al instalar
+
+- En Raspberry Pi OS instalar primero:
+  - `python3-dev`
+  - `portaudio19-dev`
+  - `ffmpeg`
+
+## whisper.cpp tarda demasiado al compilar
+
+- Instalar dependencias de build:
+  - `build-essential`
+  - `pkg-config`
+  - `cmake`
+  - `ninja-build`
+- En Pi 4 usar `bash scripts/download_models.sh base /home/pi/whisper.cpp` para compilar solo `whisper-stream`.
+- Si queres compilar todo el proyecto, usar `INCLUIA_WCPP_BUILD_ALL=1`.
 
 ## whisper.cpp falla por binario/modelo
 
@@ -59,4 +78,10 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 - Causa tipica: cliente JS de Socket.IO no compatible o path legado.
 - En este repo el cliente correcto es local: /static/vendor/socket.io.min.js.
 - Si el navegador mantiene cache viejo, forzar recarga con Ctrl+F5.
+
+## En celular por AP la UI se congela
+
+- Dejar `INCLUIA_SOCKET_TRANSPORT=polling` en `.env`.
+- Reiniciar el servicio y probar de nuevo.
+- Si el navegador movil mantiene assets viejos, cerrar la PWA o limpiar cache del sitio.
 

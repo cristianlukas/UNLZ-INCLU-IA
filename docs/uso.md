@@ -3,7 +3,7 @@
 ## Inicio manual (sin systemd)
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python server.py
 ```
@@ -55,6 +55,24 @@ journalctl -u inclu-ia.service -f
 ## Ajustes utiles de audio en Raspberry Pi
 
 - `INCLUIA_AUDIO_DEVICE_INDEX`: indice de entrada para PyAudio.
-- `INCLUIA_AUDIO_SAMPLE_RATE`: frecuencia del microfono para `faster_whisper` (`16000` por defecto, algunos adaptadores USB requieren `48000`).
+- `INCLUIA_AUDIO_SAMPLE_RATE`: frecuencia del microfono para `faster_whisper` (si no se define, intenta usar la del dispositivo; algunos adaptadores USB requieren `48000`).
 - `INCLUIA_FW_PHRASE_LIMIT_S`: duracion maxima de cada bloque escuchado.
 - `INCLUIA_WCPP_STEP_MS` y `INCLUIA_WCPP_LENGTH_MS`: ventana y paso de `whisper.cpp`.
+- `INCLUIA_SOCKET_TRANSPORT`: `polling` para AP inestable o `websocket` si queres priorizar baja sobrecarga.
+
+## Diagnostico rapido de audio
+
+Listar dispositivos con PyAudio:
+
+```bash
+cd /home/pi/UNLZ-INCLU-IA/software
+source .venv/bin/activate
+python tools/list_audio_devices.py
+```
+
+Validar el microfono con ALSA:
+
+```bash
+arecord -l
+arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -d 5 /tmp/test-mic.wav
+```

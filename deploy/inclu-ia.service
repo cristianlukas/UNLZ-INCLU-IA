@@ -5,11 +5,11 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=pi
+User=__RUN_USER__
 Group=audio
-WorkingDirectory=/home/pi/Inclu-IA/software
-EnvironmentFile=/home/pi/Inclu-IA/software/.env
-ExecStart=/home/pi/Inclu-IA/software/.venv/bin/python /home/pi/Inclu-IA/software/server.py
+WorkingDirectory=__REPO_DIR__/software
+EnvironmentFile=-__REPO_DIR__/software/.env
+ExecStart=__REPO_DIR__/software/.venv/bin/python __REPO_DIR__/software/server.py
 Restart=always
 RestartSec=2
 NoNewPrivileges=true

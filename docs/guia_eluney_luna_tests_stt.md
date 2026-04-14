@@ -35,8 +35,8 @@ Desde la Pi:
 
 ```bash
 cd /home/pi
-git clone <URL-DEL-REPO> Inclu-IA
-cd /home/pi/Inclu-IA
+git clone <URL-DEL-REPO> UNLZ-INCLU-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo apt update
 sudo apt install -y curl python3 python3-venv python3-pip ffmpeg
 bash scripts/install_backend.sh
@@ -45,7 +45,7 @@ bash scripts/install_backend.sh
 Verificacion minima:
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python -m pytest -q
 ```
@@ -55,7 +55,7 @@ Esperado: tests en verde.
 ## Paso 2: bajar audios de prueba en espanol
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 bash scripts/download_test_audio.sh
 ```
 
@@ -68,7 +68,7 @@ Archivos esperados:
 ## Paso 3: correr benchmark de modelos
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 bash scripts/run_benchmark_raspi4_es.sh
 ```
 
@@ -81,7 +81,7 @@ Archivo de salida esperado:
 Instalacion:
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 source software/.venv/bin/activate
 pip install -r software/requirements-alt-asr.txt
 bash scripts/download_vosk_es_model.sh
@@ -90,7 +90,7 @@ bash scripts/download_vosk_es_model.sh
 Moonshine:
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python tools/benchmark_moonshine.py \
   --manifest ../assets/test_audio/es/manifest.json \
@@ -101,7 +101,7 @@ python tools/benchmark_moonshine.py \
 Vosk:
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python tools/benchmark_vosk.py \
   --manifest ../assets/test_audio/es/manifest.json \
@@ -152,10 +152,18 @@ Si necesitas fijar un dispositivo:
 INCLUIA_AUDIO_DEVICE_INDEX=0
 ```
 
+Antes de definirlo, listar dispositivos:
+
+```bash
+cd /home/pi/UNLZ-INCLU-IA/software
+source .venv/bin/activate
+python tools/list_audio_devices.py
+```
+
 ## Paso 6: prueba manual del backend
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python server.py --driver faster_whisper
 ```

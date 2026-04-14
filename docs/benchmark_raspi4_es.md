@@ -26,7 +26,7 @@ Equipo objetivo: Raspberry Pi 4 Model B 8GB con Raspberry Pi OS 64-bit.
 Preparacion recomendada en la Pi:
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo apt update
 sudo apt install -y curl python3 python3-venv python3-pip ffmpeg
 bash scripts/install_backend.sh
@@ -42,7 +42,7 @@ Salida esperada en la Pi:
 Si queres correrlo manualmente:
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 source .venv/bin/activate
 python tools/benchmark_faster_whisper.py \
   --manifest ../assets/test_audio/es/manifest.json \

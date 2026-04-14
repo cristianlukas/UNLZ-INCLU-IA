@@ -4,7 +4,7 @@
 
 - Raspberry Pi OS 64-bit actualizado.
 - Usuario con sudo.
-- Repo clonado en `/home/pi/Inclu-IA`.
+- Repo clonado en `/home/pi/UNLZ-INCLU-IA`.
 
 ```bash
 sudo apt update && sudo apt upgrade -y
@@ -16,28 +16,28 @@ sudo apt install -y git python3 python3-venv python3-pip avahi-daemon
 ### Opcion recomendada: NetworkManager
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/setup_ap_networkmanager.sh "Inclu-IA_Classroom" "TuClaveSegura123"
 ```
 
 ### Opcion alternativa: hostapd + dnsmasq
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/setup_ap_hostapd_dnsmasq.sh
 ```
 
 ## 2) Instalar backend
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/install_backend.sh
 ```
 
 ## 3) Configurar variables
 
 ```bash
-cd /home/pi/Inclu-IA/software
+cd /home/pi/UNLZ-INCLU-IA/software
 cp .env.example .env
 nano .env
 ```
@@ -51,14 +51,14 @@ Campos minimos:
 ## 4) (Opcional) Descargar modelos whisper.cpp
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 bash scripts/download_models.sh base /home/pi/whisper.cpp
 ```
 
 ## 4.1) (Opcional) Descargar audios de prueba en espanol
 
 ```bash
-cd /home/pi/Inclu-IA
+cd /home/pi/UNLZ-INCLU-IA
 bash scripts/download_test_audio.sh
 ```
 

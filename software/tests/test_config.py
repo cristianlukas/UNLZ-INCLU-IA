@@ -6,7 +6,7 @@ def test_config_defaults() -> None:
     assert cfg.port == 5000
     assert cfg.driver
     assert cfg.history_size >= 20
-    assert cfg.faster_sample_rate == 16000
+    assert cfg.faster_sample_rate is None
 
 
 def test_config_sample_rate_from_env(monkeypatch) -> None:

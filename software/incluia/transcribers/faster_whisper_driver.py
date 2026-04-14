@@ -19,7 +19,7 @@ class FasterWhisperTranscriber(Transcriber):
         phrase_time_limit_s: int,
         vad_filter: bool,
         device_index: int | None,
-        sample_rate: int,
+        sample_rate: int | None,
     ) -> None:
         self.model_size = model_size
         self.compute_type = compute_type
@@ -28,6 +28,14 @@ class FasterWhisperTranscriber(Transcriber):
         self.vad_filter = vad_filter
         self.device_index = device_index
         self.sample_rate = sample_rate
+
+    def _open_microphone(self, sr) -> object:
+        import speech_recognition as sr_module
+
+        return sr_module.Microphone(
+            sample_rate=sr,
+            device_index=self.device_index,
+        )
 
     def run(
         self,
@@ -58,15 +66,51 @@ class FasterWhisperTranscriber(Transcriber):
         recognizer = sr.Recognizer()
         recognizer.dynamic_energy_threshold = True
 
-        with sr.Microphone(
-            sample_rate=self.sample_rate,
-            device_index=self.device_index,
-        ) as source:
+        source_context = None
+        requested_sample_rate = self.sample_rate
+        try:
+            source_context = self._open_microphone(requested_sample_rate)
+            source = source_context.__enter__()
+        except Exception as exc:
+            if requested_sample_rate is None:
+                on_status(
+                    StatusEvent(
+                        state="error",
+                        detail=f"Audio: no se pudo abrir microfono ({exc})",
+                    )
+                )
+                return
+
+            on_status(
+                StatusEvent(
+                    state="idle",
+                    detail=(
+                        f"Fallo audio con {requested_sample_rate} Hz; reintentando con frecuencia automatica"
+                    ),
+                )
+            )
+            try:
+                source_context = self._open_microphone(None)
+                source = source_context.__enter__()
+            except Exception as retry_exc:
+                on_status(
+                    StatusEvent(
+                        state="error",
+                        detail=(
+                            "Audio: no se pudo abrir microfono. "
+                            f"device_index={self.device_index}, sample_rate={requested_sample_rate}, "
+                            f"error={retry_exc}"
+                        ),
+                    )
+                )
+                return
+
+        try:
             recognizer.adjust_for_ambient_noise(source, duration=1)
             on_status(
                 StatusEvent(
                     state="listening",
-                    detail=f"Microfono listo ({self.sample_rate} Hz)",
+                    detail=f"Microfono listo ({source.SAMPLE_RATE} Hz, mono)",
                 )
             )
 
@@ -146,3 +190,6 @@ class FasterWhisperTranscriber(Transcriber):
                             os.remove(tmp_path)
                         except OSError:
                             pass
+        finally:
+            if source_context is not None:
+                source_context.__exit__(None, None, None)
