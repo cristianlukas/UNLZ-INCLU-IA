@@ -34,6 +34,11 @@ bash scripts/download_test_audio.sh
 bash scripts/run_benchmark_raspi4_es.sh
 ```
 
+Importante:
+
+- usar `bash scripts/...`
+- no usar `sh scripts/...`, porque estos scripts usan sintaxis de Bash
+
 Salida esperada en la Pi:
 
 - audios en `assets/test_audio/es`
@@ -88,6 +93,18 @@ Lectura rapida:
 - `small`: mejora el dialogo claro, pero ya penaliza bastante mas en habla rapida rioplatense.
 
 Esto no representa Raspberry Pi 4. Sirve solo como linea base para que el becario compare contra la Pi y vea cuanto cae el rendimiento real.
+
+## Smoke test adicional en Debian WSL
+
+Se valido el flujo Linux de software en Debian WSL el 14 de abril de 2026:
+
+- instalacion de dependencias del sistema
+- `pip install -r requirements.txt`
+- `pytest`
+- descarga de audios
+- benchmark de `faster-whisper`
+
+Esto valida software Linux general, pero no reemplaza las pruebas en Raspberry Pi.
 
 ## Recomendacion inicial para Pi 4 Model B 8GB
 

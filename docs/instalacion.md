@@ -5,6 +5,7 @@
 - Raspberry Pi OS 64-bit actualizado.
 - Usuario con sudo.
 - Repo clonado en `/home/pi/UNLZ-INCLU-IA`.
+- En Linux, ejecutar scripts del repo con `bash scripts/...`, no con `sh scripts/...`.
 
 ```bash
 sudo apt update && sudo apt upgrade -y

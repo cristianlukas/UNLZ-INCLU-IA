@@ -22,6 +22,7 @@ Objetivo: medir y dejar documentado el comportamiento de STT en **Raspberry Pi 4
 - Primero comparar modelos con audios repetibles.
 - Despues recien probar microfono real.
 - Idioma fijo: `es`.
+- En Linux, ejecutar scripts con `bash scripts/...`, no con `sh scripts/...`.
 
 ## Entorno objetivo
 

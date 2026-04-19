@@ -1,0 +1,36 @@
+{
+  "generated_at_epoch_s": 1776174738.9417465,
+  "model_path": "/mnt/c/Users/Cristian/Documents/GitHub/UNLZ-INCLU-IA/assets/models/vosk/vosk-model-small-es-0.42",
+  "rows": [
+    {
+      "sample_id": "spanish_lesson_1_dialogue_1",
+      "filename": "SpanishL1D1.ogg",
+      "audio_seconds": 20.967619,
+      "elapsed_seconds": 2.2370573139999124,
+      "realtime_factor": 0.10669105128245188,
+      "expected_token_recall": 1.0,
+      "matched_expected": true,
+      "transcript": "ya a los juan bitcoin carmen roberto hola roberto cómo estás yo estoy bien gracias y tú cómo estás estoy bien hay algo nuevo para contar no mucho adiós roberto adiós hasta mañana"
+    },
+    {
+      "sample_id": "spanish_lesson_1_dialogue_2",
+      "filename": "SpanishL1D2.ogg",
+      "audio_seconds": 19.033107,
+      "elapsed_seconds": 1.890748829000131,
+      "realtime_factor": 0.09933999892924109,
+      "expected_token_recall": 1.0,
+      "matched_expected": true,
+      "transcript": "ya ya la actitud bitcoin señor gonzález señora pérez buenos días cómo se llama usted me llamo ana pérez y usted cómo se llama soy luis gonzález encantado encantada"
+    },
+    {
+      "sample_id": "rioplatense_fast_speech",
+      "filename": "Siqueresirte_v1.ogg",
+      "audio_seconds": 2.484535,
+      "elapsed_seconds": 0.8319923460001064,
+      "realtime_factor": 0.3348684345360827,
+      "expected_token_recall": 0.2,
+      "matched_expected": false,
+      "transcript": "si queréis te anda tensión autoridad para"
+    }
+  ]
+}

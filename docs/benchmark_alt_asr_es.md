@@ -57,6 +57,11 @@ bash scripts/download_test_audio.sh
 bash scripts/download_vosk_es_model.sh
 ```
 
+Importante:
+
+- usar `bash scripts/...`
+- no usar `sh scripts/...`, porque estos scripts usan sintaxis de Bash
+
 ## Benchmark Moonshine en Raspberry Pi
 
 ```bash
@@ -110,6 +115,21 @@ Conclusion practica para repetir en la Pi:
 - priorizar `faster-whisper base` como baseline
 - probar `Moonshine` como alternativa real a Whisper
 - dejar `Vosk` como opcion de contingencia si la prioridad absoluta es latencia
+
+## Smoke test adicional en Debian WSL
+
+Se valido tambien en Debian WSL el 14 de abril de 2026:
+
+- instalacion de `moonshine-voice` y `vosk`
+- benchmark Linux de `Vosk`
+- benchmark Linux de `Moonshine`
+
+Lectura rapida en WSL:
+
+- `Vosk` corrio bien y mantuvo buena velocidad
+- `Moonshine` corrio bien, pero quedo bastante mas lento que `faster-whisper`
+
+Esto sigue sin reemplazar las pruebas en Raspberry Pi 4B 8GB.
 
 ## Nota de licencia
 
