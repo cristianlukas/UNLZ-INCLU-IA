@@ -44,6 +44,21 @@ Este documento sirve como bitácora centralizada para que Patricio (Frontend) y 
   - No logré que funcione la PWA desde fuera de localhost, hay un problema de certificados donde para ser PWA se requiere que la app se sirva a través de https, y no logré cargar correctamente el certificado
 
 ### Semana 3
+
+* **Fecha:** 21/05/2026
+* **Avances:**
+
+  * Se realizaron pruebas funcionales de los modos Demo y Replay en múltiples dispositivos Android y equipos Windows.
+  * Se validó el funcionamiento del historial, cambio entre modos y comportamiento general de la interfaz.
+  * Se realizaron pruebas de estabilidad manteniendo la aplicación abierta durante períodos prolongados sin detectar bloqueos ni necesidad de recarga manual.
+  * Se verificó el correcto funcionamiento de la PWA y del service worker en los dispositivos utilizados.
+* **Problemas/Bloqueos:**
+
+  * No fue posible realizar una validación completa del modo En vivo debido a problemas de rendimiento y fluidez en la instancia local de Whisper utilizada para las pruebas, sospecho que puede ser porque no esta optimizado para windows o quizas mi notebook esta un poco lenta, lo voy a validar con backend.
+  * Queda pendiente la validación en dispositivos iOS para la semana4.
+
+
+### Semana 4
 - **Fecha:** DD/MM/AAAA
 - **Avances:** 
 - **Problemas/Bloqueos:**
