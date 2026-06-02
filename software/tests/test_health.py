@@ -19,3 +19,5 @@ def test_health_endpoint_reports_runtime_status() -> None:
     assert payload["driver"] == "simulator"
     assert payload["active_source"] in {"simulator", "faster_whisper", "whisper_cpp"}
     assert payload["status"]["state"] in {"idle", "listening", "transcribing", "error"}
+    assert payload["fallback_to_simulator"] is True
+    assert payload["last_error"] is None

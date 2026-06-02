@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import deque
+import logging
 from pathlib import Path
 from threading import Event, Lock
 from typing import Any
@@ -13,6 +14,9 @@ from .config import AppConfig
 from .events import CaptionEvent, StatusEvent, now_ms
 from .transcribers import build_transcriber
 from .transcribers.simulator import SimulatorTranscriber
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, AppConfig]:
@@ -44,6 +48,7 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
         "driver": cfg.driver,
         "active_source": cfg.driver,
         "status": StatusEvent(state="idle", detail="Inicializando").to_dict(),
+        "last_error": None,
         "started": False,
     }
 
@@ -67,6 +72,12 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
             runtime["active_source"] = transcriber.source_name
             transcriber.run(stop_event, emit_caption, emit_status)
         except Exception as exc:
+            runtime["last_error"] = {
+                "type": type(exc).__name__,
+                "detail": str(exc),
+                "driver": cfg.driver,
+            }
+            logger.exception("Transcriber driver failed: %s", cfg.driver)
             emit_status(StatusEvent(state="error", detail=f"Driver fallo: {exc}"))
 
             should_fallback = cfg.fallback_to_simulator and cfg.driver != "simulator"
@@ -104,6 +115,8 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
                 "driver": runtime["driver"],
                 "active_source": runtime["active_source"],
                 "status": runtime["status"],
+                "fallback_to_simulator": cfg.fallback_to_simulator,
+                "last_error": runtime["last_error"],
                 "history_items": len(history),
                 "t_server_ms": now_ms(),
             }

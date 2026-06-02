@@ -25,8 +25,36 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 ## Estado queda en error
 
 - Ver payload de `status.detail` en la UI.
+- Ver `last_error` en `GET /_health`; incluye tipo de excepcion, detalle y driver.
 - Si falla driver real y `INCLUIA_FALLBACK_SIM=1`, debe entrar a simulador.
 - Si no queres fallback, poner `INCLUIA_FALLBACK_SIM=0` para diagnostico estricto.
+
+Diagnostico estricto recomendado:
+
+```bash
+cd /home/pi/UNLZ-INCLU-IA/software
+source .venv/bin/activate
+INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python tools/check_stt_setup.py
+INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python server.py
+```
+
+En Windows PowerShell:
+
+```powershell
+cd .\software
+$env:INCLUIA_DRIVER="faster_whisper"
+$env:INCLUIA_FALLBACK_SIM="0"
+.\.venv\Scripts\python .\tools\check_stt_setup.py
+.\.venv\Scripts\python .\server.py
+```
+
+Si el check falla, guardar la salida de:
+
+```bash
+python tools/check_stt_setup.py --json
+```
+
+Usar `--load-model` solo cuando se quiera validar descarga/cache del modelo, porque puede tardar.
 
 ## faster-whisper no captura audio
 
@@ -63,6 +91,7 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 
 ## Latencia alta
 
+- Medir primero con archivos mediante `tools/benchmark_faster_whisper.py`; no mezclar rendimiento del modelo con problemas de microfono.
 - Reducir modelo (`tiny` o `base`).
 - En Raspberry Pi 4, `small` suele mejorar precision pero aumentar mucho la demora; no asumir tiempo real.
 - En `faster_whisper`, bajar `INCLUIA_FW_PHRASE_LIMIT_S`.

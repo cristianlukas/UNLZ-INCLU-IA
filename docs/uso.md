@@ -62,6 +62,30 @@ journalctl -u inclu-ia.service -f
 
 ## Diagnostico rapido de audio
 
+Validar configuracion STT y dependencias del driver elegido:
+
+```bash
+cd /home/pi/UNLZ-INCLU-IA/software
+source .venv/bin/activate
+python tools/check_stt_setup.py
+```
+
+Para diagnostico estricto sin volver al simulador:
+
+```bash
+INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python tools/check_stt_setup.py
+INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python server.py
+```
+
+En Windows PowerShell:
+
+```powershell
+cd .\software
+$env:INCLUIA_DRIVER="faster_whisper"
+$env:INCLUIA_FALLBACK_SIM="0"
+.\.venv\Scripts\python .\tools\check_stt_setup.py
+```
+
 Listar dispositivos con PyAudio:
 
 ```bash
