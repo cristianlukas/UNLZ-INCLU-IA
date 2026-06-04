@@ -65,11 +65,36 @@ Opciones:
 # Omitir whisper.cpp
 INCLUIA_SKIP_WCPP=1 sudo bash scripts/install_backend.sh
 
-# Usar otro modelo
-INCLUIA_WCPP_MODEL_SIZE=tiny sudo bash scripts/install_backend.sh
+# Perfil de hardware (elige modelo por defecto)
+#   pi4 -> base-q5_1   (comandos de voz)
+#   pi5 -> small-q5_1  (dictado / mejor calidad)
+INCLUIA_PI_PROFILE=pi4 sudo bash scripts/install_backend.sh
+INCLUIA_PI_PROFILE=pi5 sudo bash scripts/install_backend.sh
+
+# Elegir modelo explicito (gana sobre el perfil)
+# Validos: base | base-q5_1 | small | small-q5_1
+INCLUIA_WCPP_MODEL_SIZE=small-q5_1 sudo bash scripts/install_backend.sh
 
 # Usar otra ruta para whisper.cpp
 INCLUIA_WCPP_DIR=/opt/whisper.cpp sudo bash scripts/install_backend.sh
+```
+
+Modelo es multilingue y se fuerza espanol con `-l es` (no usar variantes `*.en`).
+
+Recomendacion por hardware:
+
+| Hardware | Modelo | Uso |
+|----------|--------|-----|
+| Pi 4 | `base` o `base-q5_1` | comandos de voz |
+| Pi 5 | `small` o `small-q5_1` | dictado / transcripcion |
+
+Tambien se puede llamar directo al descargador:
+
+```bash
+# Por perfil
+INCLUIA_PI_PROFILE=pi5 bash scripts/download_models.sh
+# Por modelo
+bash scripts/download_models.sh base-q5_1 /home/pi/whisper.cpp
 ```
 
 ## 2) Cambiar backend desde la webapp

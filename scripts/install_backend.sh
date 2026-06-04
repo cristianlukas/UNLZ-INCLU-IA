@@ -6,7 +6,15 @@ SW_DIR="${REPO_DIR}/software"
 RUN_USER="${SUDO_USER:-${USER}}"
 SERVICE_SRC="${REPO_DIR}/deploy/inclu-ia.service"
 SERVICE_TMP="$(mktemp)"
-WHISPER_CPP_MODEL="${INCLUIA_WCPP_MODEL_SIZE:-base}"
+# Perfil de hardware: pi4 -> base-q5_1, pi5 -> small-q5_1.
+# INCLUIA_WCPP_MODEL_SIZE explicito gana sobre el perfil.
+PI_PROFILE="${INCLUIA_PI_PROFILE:-}"
+case "${PI_PROFILE}" in
+  pi4) PROFILE_MODEL="base-q5_1" ;;
+  pi5) PROFILE_MODEL="small-q5_1" ;;
+  *)   PROFILE_MODEL="base" ;;
+esac
+WHISPER_CPP_MODEL="${INCLUIA_WCPP_MODEL_SIZE:-${PROFILE_MODEL}}"
 WHISPER_CPP_DIR="${INCLUIA_WCPP_DIR:-/home/${RUN_USER}/whisper.cpp}"
 
 set_env_value() {
