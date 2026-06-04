@@ -43,7 +43,44 @@
                       <option value="normal" selected>Light</option>
                       <option value="high">Alto</option>
                       <option value="oled">OLED</option>
-                  </select>
+                    </select>
+                  </div>
+                  <hr />
+                  <div>
+                    <label for="sttDriver">Backend STT:</label>
+                    <select id="sttDriver">
+                      <option value="simulator">Simulador</option>
+                      <option value="faster_whisper">faster-whisper</option>
+                      <option value="whisper_cpp">whisper.cpp</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="fwModel">Modelo FW:</label>
+                    <select id="fwModel">
+                      <option value="tiny">tiny</option>
+                      <option value="base">base</option>
+                      <option value="small">small</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="fwPhraseLimit">Chunk FW (s):</label>
+                    <input id="fwPhraseLimit" type="number" min="1" max="20" step="1" />
+                  </div>
+                  <div>
+                    <label for="wcppStep">WCPP step (ms):</label>
+                    <input id="wcppStep" type="number" min="100" max="10000" step="100" />
+                  </div>
+                  <div>
+                    <label for="wcppLength">WCPP length (ms):</label>
+                    <input id="wcppLength" type="number" min="100" max="30000" step="100" />
+                  </div>
+                  <div>
+                    <label for="fallbackSim">Fallback simulador:</label>
+                    <input id="fallbackSim" type="checkbox" />
+                  </div>
+                  <div>
+                    <button id="applySttConfig" type="button">Aplicar STT</button>
+                    <span id="sttConfigFeedback" class="tag">Runtime</span>
                   </div>
                 </div>
 

@@ -14,6 +14,14 @@
   const modeLiveBtn = document.getElementById("modeLiveBtn");
   const modeDemoBtn = document.getElementById("modeDemoBtn");
   const modeReplayBtn = document.getElementById("modeReplayBtn");
+  const sttDriver = document.getElementById("sttDriver");
+  const fwModel = document.getElementById("fwModel");
+  const fwPhraseLimit = document.getElementById("fwPhraseLimit");
+  const wcppStep = document.getElementById("wcppStep");
+  const wcppLength = document.getElementById("wcppLength");
+  const fallbackSim = document.getElementById("fallbackSim");
+  const applySttConfig = document.getElementById("applySttConfig");
+  const sttConfigFeedback = document.getElementById("sttConfigFeedback");
 
   const DEMO_LINES = [
     "Bienvenidos a Inclu-IA.",
@@ -149,6 +157,57 @@
     onboardingText.innerHTML = `1) Conectate a <strong>${ssid}</strong>. 2) Abrí <strong>${url}</strong>. 3) Esperá estado "Escuchando".`;
   };
 
+  const setSttConfigUI = (cfg) => {
+    const stt = cfg?.stt || {};
+    if (sttDriver) sttDriver.value = stt.driver || cfg?.driver || "simulator";
+    if (fwModel) fwModel.value = stt.faster_model_size || "tiny";
+    if (fwPhraseLimit) fwPhraseLimit.value = stt.faster_phrase_time_limit_s || 4;
+    if (wcppStep) wcppStep.value = stt.whisper_cpp_step_ms || 2000;
+    if (wcppLength) wcppLength.value = stt.whisper_cpp_length_ms || 8000;
+    if (fallbackSim) fallbackSim.checked = Boolean(cfg?.fallback_to_simulator);
+  };
+
+  const currentSttPayload = () => ({
+    driver: sttDriver?.value || "simulator",
+    fallback_to_simulator: Boolean(fallbackSim?.checked),
+    faster_model_size: fwModel?.value || "tiny",
+    faster_phrase_time_limit_s: Number(fwPhraseLimit?.value || 4),
+    whisper_cpp_step_ms: Number(wcppStep?.value || 2000),
+    whisper_cpp_length_ms: Number(wcppLength?.value || 8000),
+  });
+
+  const applyRuntimeSttConfig = async () => {
+    if (!applySttConfig) return;
+
+    applySttConfig.disabled = true;
+    sttConfigFeedback.textContent = "Aplicando...";
+    try {
+      const response = await fetch("/api/config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(currentSttPayload()),
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error || "No se pudo aplicar configuración STT");
+      }
+
+      lastConfig = payload.config;
+      setSttConfigUI(lastConfig);
+      sourceTag.textContent = `source: ${lastConfig.active_source || "-"}`;
+      sttConfigFeedback.textContent = "Aplicado";
+
+      if (currentMode === MODES.LIVE) {
+        connectSocket(lastConfig);
+      }
+    } catch (err) {
+      sttConfigFeedback.textContent = "Error";
+      setStatus("error", err?.message || "Config STT");
+    } finally {
+      applySttConfig.disabled = false;
+    }
+  };
+
   const startDemoMode = () => {
     stopAllIntervals();
     currentMode = MODES.DEMO;
@@ -225,6 +284,7 @@
       const ssid = cfg.ap_ssid ? `Conectate al WiFi: ${cfg.ap_ssid}` : "WiFi local";
       networkHint.textContent = `${ssid} | URL: ${url}`;
       sourceTag.textContent = `source: ${cfg.active_source || "-"}`;
+      setSttConfigUI(cfg);
       updateOnboarding(cfg);
       return cfg;
     } catch {
@@ -323,6 +383,13 @@
       liveCaption.textContent = "";
       lastHistoryItems = [];
     });
+
+    socket.on("config", (cfgPayload) => {
+      if (!cfgPayload) return;
+      lastConfig = cfgPayload;
+      setSttConfigUI(cfgPayload);
+      sourceTag.textContent = `source: ${cfgPayload.active_source || "-"}`;
+    });
   };
 
   if ("serviceWorker" in navigator) {
@@ -378,6 +445,10 @@
   modeReplayBtn.addEventListener("click", () => {
     startReplayMode();
   });
+
+  if (applySttConfig) {
+    applySttConfig.addEventListener("click", applyRuntimeSttConfig);
+  }
 
   Promise.all([loadConfig(), loadHistory()]).then(([cfg]) => {
     setModeUI(currentMode);

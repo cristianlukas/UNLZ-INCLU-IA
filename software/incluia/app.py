@@ -7,7 +7,7 @@ from threading import Event, Lock
 from typing import Any
 
 import os
-from flask import Flask, jsonify, render_template, request, send_file, send_from_directory
+from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO
 
 from .config import AppConfig
@@ -17,6 +17,95 @@ from .transcribers.simulator import SimulatorTranscriber
 
 
 logger = logging.getLogger(__name__)
+
+
+DRIVER_CHOICES = {"simulator", "faster_whisper", "whisper_cpp"}
+
+
+def _config_payload(cfg: AppConfig, runtime: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "driver": runtime["driver"],
+        "active_source": runtime["active_source"],
+        "ap_ssid": cfg.ap_ssid,
+        "ap_url": cfg.ap_url,
+        "history_size": cfg.history_size,
+        "socket_transport": cfg.socket_transport,
+        "status": runtime["status"],
+        "fallback_to_simulator": cfg.fallback_to_simulator,
+        "last_error": runtime["last_error"],
+        "stt": {
+            "driver": cfg.driver,
+            "driver_options": sorted(DRIVER_CHOICES),
+            "faster_model_size": cfg.faster_model_size,
+            "faster_compute_type": cfg.faster_compute_type,
+            "faster_language": cfg.faster_language,
+            "faster_phrase_time_limit_s": cfg.faster_phrase_time_limit_s,
+            "faster_vad_filter": cfg.faster_vad_filter,
+            "faster_queue_max_chunks": cfg.faster_queue_max_chunks,
+            "whisper_cpp_threads": cfg.whisper_cpp_threads,
+            "whisper_cpp_step_ms": cfg.whisper_cpp_step_ms,
+            "whisper_cpp_length_ms": cfg.whisper_cpp_length_ms,
+            "whisper_cpp_vad_threshold": cfg.whisper_cpp_vad_threshold,
+        },
+    }
+
+
+def _as_positive_int(value: Any, current: int, minimum: int = 1) -> int:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return current
+    return max(minimum, parsed)
+
+
+def _as_bool_value(value: Any, current: bool) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes", "y", "on"}
+    return current
+
+
+def _apply_config_patch(cfg: AppConfig, data: dict[str, Any]) -> None:
+    driver = str(data.get("driver", cfg.driver)).strip()
+    if driver not in DRIVER_CHOICES:
+        raise ValueError(
+            f"Driver invalido: {driver}. Usa simulator, faster_whisper o whisper_cpp."
+        )
+
+    cfg.driver = driver
+    cfg.fallback_to_simulator = _as_bool_value(
+        data.get("fallback_to_simulator"), cfg.fallback_to_simulator
+    )
+    cfg.faster_model_size = str(data.get("faster_model_size", cfg.faster_model_size)).strip()
+    cfg.faster_compute_type = str(
+        data.get("faster_compute_type", cfg.faster_compute_type)
+    ).strip()
+    cfg.faster_language = str(data.get("faster_language", cfg.faster_language)).strip()
+    cfg.faster_phrase_time_limit_s = _as_positive_int(
+        data.get("faster_phrase_time_limit_s"), cfg.faster_phrase_time_limit_s
+    )
+    cfg.faster_queue_max_chunks = _as_positive_int(
+        data.get("faster_queue_max_chunks"), cfg.faster_queue_max_chunks
+    )
+    cfg.faster_vad_filter = _as_bool_value(
+        data.get("faster_vad_filter"), cfg.faster_vad_filter
+    )
+    cfg.whisper_cpp_threads = _as_positive_int(
+        data.get("whisper_cpp_threads"), cfg.whisper_cpp_threads
+    )
+    cfg.whisper_cpp_step_ms = _as_positive_int(
+        data.get("whisper_cpp_step_ms"), cfg.whisper_cpp_step_ms, minimum=100
+    )
+    cfg.whisper_cpp_length_ms = _as_positive_int(
+        data.get("whisper_cpp_length_ms"), cfg.whisper_cpp_length_ms, minimum=100
+    )
+    try:
+        cfg.whisper_cpp_vad_threshold = float(
+            data.get("whisper_cpp_vad_threshold", cfg.whisper_cpp_vad_threshold)
+        )
+    except (TypeError, ValueError):
+        pass
 
 
 def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, AppConfig]:
@@ -52,7 +141,7 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
         "started": False,
     }
 
-    stop_event = Event()
+    stop_event_ref: dict[str, Event] = {"current": Event()}
     start_lock = Lock()
 
     def emit_status(event: StatusEvent) -> None:
@@ -67,10 +156,11 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
         socketio.emit("caption", payload)
 
     def run_transcriber() -> None:
+        local_stop_event = stop_event_ref["current"]
         try:
             transcriber = build_transcriber(cfg)
             runtime["active_source"] = transcriber.source_name
-            transcriber.run(stop_event, emit_caption, emit_status)
+            transcriber.run(local_stop_event, emit_caption, emit_status)
         except Exception as exc:
             runtime["last_error"] = {
                 "type": type(exc).__name__,
@@ -81,7 +171,7 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
             emit_status(StatusEvent(state="error", detail=f"Driver fallo: {exc}"))
 
             should_fallback = cfg.fallback_to_simulator and cfg.driver != "simulator"
-            if not should_fallback or stop_event.is_set():
+            if not should_fallback or local_stop_event.is_set():
                 return
 
             emit_status(StatusEvent(state="idle", detail="Fallback a simulador"))
@@ -90,13 +180,28 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
                 interval_s=cfg.simulator_interval_s,
                 lines=cfg.simulator_lines,
             )
-            simulator.run(stop_event, emit_caption, emit_status)
+            simulator.run(local_stop_event, emit_caption, emit_status)
 
     def ensure_background_started() -> None:
         with start_lock:
             if runtime["started"]:
                 return
             runtime["started"] = True
+            socketio.start_background_task(run_transcriber)
+
+    def restart_transcriber() -> None:
+        with start_lock:
+            stop_event_ref["current"].set()
+            stop_event_ref["current"] = Event()
+            runtime["driver"] = cfg.driver
+            runtime["active_source"] = cfg.driver
+            runtime["last_error"] = None
+            runtime["status"] = StatusEvent(
+                state="idle", detail=f"Reiniciando driver {cfg.driver}"
+            ).to_dict()
+            runtime["started"] = True
+            socketio.emit("config", _config_payload(cfg, runtime))
+            socketio.emit("status", runtime["status"])
             socketio.start_background_task(run_transcriber)
 
     @app.before_request
@@ -124,17 +229,18 @@ def create_server(config: AppConfig | None = None) -> tuple[Flask, SocketIO, App
 
     @app.get("/api/config")
     def get_config() -> Any:
-        return jsonify(
-            {
-                "driver": runtime["driver"],
-                "active_source": runtime["active_source"],
-                "ap_ssid": cfg.ap_ssid,
-                "ap_url": cfg.ap_url,
-                "history_size": cfg.history_size,
-                "socket_transport": cfg.socket_transport,
-                "status": runtime["status"],
-            }
-        )
+        return jsonify(_config_payload(cfg, runtime))
+
+    @app.post("/api/config")
+    def update_config() -> Any:
+        data = request.get_json(silent=True) or {}
+        try:
+            _apply_config_patch(cfg, data)
+        except ValueError as exc:
+            return jsonify({"ok": False, "error": str(exc)}), 400
+
+        restart_transcriber()
+        return jsonify({"ok": True, "config": _config_payload(cfg, runtime)})
 
     @app.get("/api/history")
     def get_history() -> Any:

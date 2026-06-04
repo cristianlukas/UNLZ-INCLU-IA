@@ -71,6 +71,10 @@ Abrir:
 - `http://127.0.0.1:5000`
 - `http://<IP-LAN-DE-LA-PC>:5000` desde celulares en la misma red
 
+Desde el menu ⚙️ de la webapp se puede cambiar entre `simulator`, `faster_whisper`
+y `whisper_cpp`, ajustar parametros basicos y aplicar sin editar archivos. Esos cambios
+son de runtime; para dejarlos permanentes, copiar los valores a `software\.env`.
+
 ## 4) Levantar servidor en simulador
 
 ```powershell

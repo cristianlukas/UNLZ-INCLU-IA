@@ -166,7 +166,7 @@ label {
   white-space: nowrap;
 }
 
-select, button {
+select, button, input {
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--panel);
@@ -352,19 +352,35 @@ button:hover {
   box-shadow: 0 8px 24px rgba(15,35,93,0.08);
   gap: 0.5rem;
   flex-direction: column;
+  min-width: min(86vw, 360px);
+  z-index: 20;
 }
 
 .menu-content label,
 .menu-content select,
-.menu-content button {
+.menu-content button,
+.menu-content input {
   display: inline-flex;
   align-items: center;
 }
 
 .menu-content > div {
-  display: flex;             /* cada fila horizontal */
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(0, 1.2fr);
   align-items: center;
   gap: 0.5rem;
+}
+
+.menu-content hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.menu-content input[type="checkbox"] {
+  justify-self: start;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .header-menu.open .menu-content {

@@ -56,6 +56,8 @@ journalctl -u inclu-ia.service -f
 - `simulator`: para desarrollo frontend y pruebas de red.
 - `faster_whisper`: pipeline Python simple para MVP y pruebas locales en Windows.
 - `whisper_cpp`: opcion para tuning de latencia en edge, principalmente Raspberry/Linux.
+- Desde el menu ⚙️ de la webapp se puede cambiar el backend STT y parametros basicos en runtime.
+- Los cambios hechos desde la webapp aplican al proceso actual; para dejarlos fijos, copiar valores a `.env`.
 
 ## Ajustes utiles de audio en Raspberry Pi
 

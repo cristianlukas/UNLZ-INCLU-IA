@@ -111,6 +111,10 @@ Para simulador:
 python server.py --driver simulator
 ```
 
+Desde el menu ⚙️ de la webapp se puede cambiar entre `simulator`, `faster_whisper`
+y `whisper_cpp`, ajustar parametros basicos y aplicar sin editar archivos. Esos cambios
+son de runtime; para dejarlos permanentes, copiar los valores a `software/.env`.
+
 ## 7) Levantar servicio systemd
 
 ```bash
