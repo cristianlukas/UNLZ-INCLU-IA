@@ -27,7 +27,6 @@ echo "[3/4] Descargando modelo ggml-${MODEL}.bin"
 ./models/download-ggml-model.sh "${MODEL}"
 
 echo "[4/4] Recordatorio faster-whisper"
-cat <<EOF
-Si vas a usar faster-whisper, la primera corrida descarga modelo automaticamente.
-Para preparar cache offline, ejecuta server.py una vez con INCLUIA_DRIVER=faster_whisper.
-EOF
+printf '%s\n' \
+  "Si vas a usar faster-whisper, la primera corrida descarga modelo automaticamente." \
+  "Para preparar cache offline, ejecuta server.py una vez con INCLUIA_DRIVER=faster_whisper."

@@ -6,8 +6,22 @@ SW_DIR="${REPO_DIR}/software"
 RUN_USER="${SUDO_USER:-${USER}}"
 SERVICE_SRC="${REPO_DIR}/deploy/inclu-ia.service"
 SERVICE_TMP="$(mktemp)"
+WHISPER_CPP_MODEL="${INCLUIA_WCPP_MODEL_SIZE:-base}"
+WHISPER_CPP_DIR="${INCLUIA_WCPP_DIR:-/home/${RUN_USER}/whisper.cpp}"
 
-echo "[0/7] Instalando dependencias del sistema"
+set_env_value() {
+  local key="$1"
+  local value="$2"
+  local env_file="${SW_DIR}/.env"
+
+  if grep -q "^${key}=" "${env_file}"; then
+    sed -i "s|^${key}=.*|${key}=${value}|g" "${env_file}"
+  else
+    printf '%s=%s\n' "${key}" "${value}" >> "${env_file}"
+  fi
+}
+
+echo "[0/8] Instalando dependencias del sistema"
 sudo apt update
 sudo apt install -y \
   git \
@@ -21,34 +35,45 @@ sudo apt install -y \
 
 cd "${SW_DIR}"
 
-echo "[1/7] Creando entorno virtual"
+echo "[1/8] Creando entorno virtual"
 python3 -m venv .venv
 
 # shellcheck disable=SC1091
 source .venv/bin/activate
 
-echo "[2/7] Actualizando pip"
+echo "[2/8] Actualizando pip"
 pip install --upgrade pip
 
-echo "[3/7] Instalando dependencias"
+echo "[3/8] Instalando dependencias Python"
 pip install -r requirements.txt
 
-echo "[4/7] Preparando archivo .env"
+echo "[4/8] Preparando archivo .env"
 if [[ ! -f .env && -f .env.example ]]; then
   cp .env.example .env
 fi
 
-echo "[5/7] Generando unit file"
+echo "[5/8] Preparando whisper.cpp"
+if [[ "${INCLUIA_SKIP_WCPP:-0}" == "1" ]]; then
+  echo "Saltando whisper.cpp por INCLUIA_SKIP_WCPP=1"
+else
+  sudo -u "${RUN_USER}" bash "${REPO_DIR}/scripts/download_models.sh" \
+    "${WHISPER_CPP_MODEL}" \
+    "${WHISPER_CPP_DIR}"
+  set_env_value "INCLUIA_WCPP_BIN" "${WHISPER_CPP_DIR}/build/bin/whisper-stream"
+  set_env_value "INCLUIA_WCPP_MODEL" "${WHISPER_CPP_DIR}/models/ggml-${WHISPER_CPP_MODEL}.bin"
+fi
+
+echo "[6/8] Generando unit file"
 sed \
   -e "s|__RUN_USER__|${RUN_USER}|g" \
   -e "s|__REPO_DIR__|${REPO_DIR}|g" \
   "${SERVICE_SRC}" > "${SERVICE_TMP}"
 
-echo "[6/7] Instalando unit file"
+echo "[7/8] Instalando unit file"
 sudo cp "${SERVICE_TMP}" /etc/systemd/system/inclu-ia.service
 rm -f "${SERVICE_TMP}"
 
-echo "[7/7] Recargando systemd"
+echo "[8/8] Recargando systemd"
 sudo systemctl daemon-reload
 
 echo "Instalacion finalizada. Edita software/.env y luego ejecuta:"

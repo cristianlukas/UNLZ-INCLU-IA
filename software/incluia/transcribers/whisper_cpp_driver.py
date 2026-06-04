@@ -24,8 +24,9 @@ def _missing_file_detail(kind: str, path: str) -> str:
     if platform.system().lower() == "windows":
         return (
             f"No existe {kind}: {path}. "
-            "En Windows, usar faster_whisper para pruebas rapidas o compilar whisper.cpp "
-            "y configurar INCLUIA_WCPP_BIN/INCLUIA_WCPP_MODEL."
+            "Ejecutar powershell -ExecutionPolicy Bypass "
+            "-File .\\scripts\\install_windows_backend.ps1 desde la raiz del repo "
+            "para instalar faster_whisper y whisper.cpp."
         )
     return (
         f"No existe {kind}: {path}. "

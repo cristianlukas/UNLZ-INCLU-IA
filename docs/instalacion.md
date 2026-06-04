@@ -40,6 +40,7 @@ cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/install_backend.sh
 ```
 
+El instalador Linux prepara dependencias Python, `faster_whisper` y `whisper.cpp`.
 Para instalacion en Windows, usar la guia dedicada: [`guia_windows.md`](guia_windows.md).
 
 ## 3) Configurar variables

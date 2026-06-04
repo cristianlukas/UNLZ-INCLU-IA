@@ -32,6 +32,18 @@ El script instala dependencias del sistema, incluyendo:
 - `portaudio19-dev`
 - herramientas de build para `whisper.cpp`
 
+Tambien prepara `whisper.cpp` por defecto:
+
+- compila `whisper-stream`;
+- descarga el modelo GGML `base`;
+- configura `INCLUIA_WCPP_BIN` y `INCLUIA_WCPP_MODEL` en `software/.env`.
+
+Para omitir `whisper.cpp` en una instalacion rapida:
+
+```bash
+INCLUIA_SKIP_WCPP=1 sudo bash scripts/install_backend.sh
+```
+
 ## 3) Configurar .env
 
 ```bash
@@ -60,7 +72,7 @@ Para validar tambien carga/descarga del modelo:
 INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python tools/check_stt_setup.py --json --load-model
 ```
 
-## 5) Preparar whisper.cpp
+## 5) Preparar whisper.cpp manualmente
 
 ```bash
 cd /home/pi/UNLZ-INCLU-IA

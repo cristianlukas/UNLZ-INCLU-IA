@@ -37,9 +37,10 @@ def _ffmpeg_install_hint() -> str:
 def _whisper_cpp_install_hint() -> str:
     if _is_windows():
         return (
-            "whisper_cpp requiere compilar whisper.cpp y configurar "
-            "INCLUIA_WCPP_BIN/INCLUIA_WCPP_MODEL. "
-            "Para pruebas en Windows usar faster_whisper salvo que se prepare whisper.cpp manualmente."
+            "Preparar ambos backends con: powershell -ExecutionPolicy Bypass "
+            "-File .\\scripts\\install_windows_backend.ps1. "
+            "El script compila whisper.cpp, descarga el modelo y configura "
+            "INCLUIA_WCPP_BIN/INCLUIA_WCPP_MODEL."
         )
     return (
         "Preparar whisper.cpp con: bash scripts/download_models.sh base /home/pi/whisper.cpp "
@@ -102,8 +103,18 @@ def _load_faster_whisper_model(cfg: AppConfig) -> dict[str, Any]:
 def _candidate_paths(path_value: str) -> list[Path]:
     path = Path(path_value)
     if path.is_absolute():
-        return [path]
-    return [Path.cwd() / path, SOFTWARE_DIR / path, REPO_DIR / path]
+        bases = [path]
+    else:
+        bases = [Path.cwd() / path, SOFTWARE_DIR / path, REPO_DIR / path]
+
+    candidates = list(bases)
+    if _is_windows():
+        for base_path in bases:
+            if base_path.suffix.lower() != ".exe":
+                candidates.append(base_path.with_suffix(".exe"))
+                candidates.append(base_path.parent / "Release" / f"{base_path.name}.exe")
+
+    return candidates
 
 
 def _existing_path(path_value: str) -> Path | None:

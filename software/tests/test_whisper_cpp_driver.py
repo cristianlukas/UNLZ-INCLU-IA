@@ -26,4 +26,4 @@ def test_missing_file_detail_on_windows_recommends_faster_whisper(monkeypatch) -
     detail = whisper_cpp_driver._missing_file_detail("binario", "./whisper-stream")
 
     assert "faster_whisper" in detail
-    assert "INCLUIA_WCPP_BIN" in detail
+    assert "install_windows_backend.ps1" in detail

@@ -38,4 +38,4 @@ def test_check_stt_setup_recommends_whisper_cpp_setup(monkeypatch) -> None:
     assert status["binary_exists"] is False
     assert status["model_exists"] is False
     assert "INCLUIA_WCPP_BIN" in status["recommendation"]
-    assert "faster_whisper" in status["recommendation"]
+    assert "install_windows_backend.ps1" in status["recommendation"]

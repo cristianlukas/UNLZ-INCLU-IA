@@ -2,11 +2,11 @@
 
 Objetivo: levantar la webapp y validar STT local en Windows para pruebas de desarrollo.
 
-Driver recomendado en Windows:
+Drivers disponibles en Windows:
 
 - `simulator`: validar frontend/red sin STT real.
 - `faster_whisper`: validar transcripcion local.
-- `whisper_cpp`: no recomendado salvo que `whisper.cpp` este compilado en Windows y se configuren rutas manuales.
+- `whisper_cpp`: transcripcion por binario `whisper.cpp`, compilado por el instalador.
 
 ## 1) Preparar backend
 
@@ -21,9 +21,14 @@ El script:
 - instala `ffmpeg` con `winget` si falta;
 - crea `software\.venv` si falta;
 - instala `software\requirements.txt`;
-- corre `tools\check_stt_setup.py` con `INCLUIA_DRIVER=faster_whisper`.
+- clona/actualiza `whisper.cpp`;
+- compila `whisper-stream.exe`;
+- descarga el modelo GGML `base`;
+- configura `INCLUIA_WCPP_BIN` y `INCLUIA_WCPP_MODEL` en `software\.env`;
+- corre `tools\check_stt_setup.py` para `faster_whisper` y `whisper_cpp`.
 
 Si `ffmpeg` se instala en esta corrida, cerrar y abrir PowerShell antes de repetir el check.
+Si se instalan Visual Studio Build Tools, puede ser necesario cerrar y abrir PowerShell antes de compilar.
 
 ## 2) Diagnostico estricto de faster-whisper
 
@@ -42,11 +47,23 @@ Para validar tambien carga/descarga del modelo:
 
 ## 3) Levantar servidor con STT real
 
+Con `faster_whisper`:
+
 ```powershell
 cd .\software
 $env:INCLUIA_DRIVER="faster_whisper"
 $env:INCLUIA_FALLBACK_SIM="0"
 .\.venv\Scripts\python .\server.py --driver faster_whisper
+```
+
+Con `whisper_cpp`:
+
+```powershell
+cd .\software
+$env:INCLUIA_DRIVER="whisper_cpp"
+$env:INCLUIA_FALLBACK_SIM="0"
+.\.venv\Scripts\python .\tools\check_stt_setup.py --json
+.\.venv\Scripts\python .\server.py --driver whisper_cpp
 ```
 
 Abrir:
@@ -61,21 +78,11 @@ cd .\software
 .\.venv\Scripts\python .\server.py --driver simulator
 ```
 
-## 5) Sobre whisper_cpp en Windows
-
-No usar `python server.py --driver whisper_cpp` en Windows salvo que existan:
-
-- binario de `whisper.cpp` compilado para Windows;
-- modelo GGML descargado;
-- variables configuradas:
-  - `INCLUIA_WCPP_BIN`
-  - `INCLUIA_WCPP_MODEL`
-
-Si esas rutas no existen, el server falla correctamente porque el driver no tiene binario/modelo para ejecutar.
-
-## 6) Errores comunes
+## 5) Errores comunes
 
 - `ffmpeg` falta: ejecutar `winget install Gyan.FFmpeg`, cerrar y abrir PowerShell.
+- `cmake` o `git` faltan: repetir `scripts\install_windows_backend.ps1`; el script intenta instalarlos con `winget`.
+- `whisper-stream.exe` no compila: instalar Visual Studio Build Tools con workload C++ y repetir el script.
 - `PyAudio` falla: reinstalar dependencias con `.\.venv\Scripts\python -m pip install -r requirements.txt`.
 - No hay microfono: correr `.\.venv\Scripts\python .\tools\list_audio_devices.py`.
 - Vuelve al simulador: confirmar que `INCLUIA_FALLBACK_SIM=0` para ver el error real.

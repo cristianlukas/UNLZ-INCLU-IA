@@ -72,6 +72,7 @@ Inclu-IA/
 │       └── styles.css
 ├── scripts/
 │   ├── install_backend.sh
+│   ├── install_windows_backend.ps1
 │   ├── setup_ap_networkmanager.sh
 │   ├── setup_ap_hostapd_dnsmasq.sh
 │   └── download_models.sh
