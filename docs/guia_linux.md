@@ -2,6 +2,8 @@
 
 Objetivo: instalar y operar Inclu-IA en Linux, especialmente Raspberry Pi OS 64-bit.
 
+Referencia completa de STT: [`configuracion_stt.md`](configuracion_stt.md).
+
 Drivers recomendados en Linux/Raspberry:
 
 - `simulator`: validar frontend/red sin STT real.
@@ -114,6 +116,9 @@ python server.py --driver simulator
 Desde el menu ⚙️ de la webapp se puede cambiar entre `simulator`, `faster_whisper`
 y `whisper_cpp`, ajustar parametros basicos y aplicar sin editar archivos. Esos cambios
 son de runtime; para dejarlos permanentes, copiar los valores a `software/.env`.
+
+Para documentacion detallada de parametros, API y persistencia, ver
+[`configuracion_stt.md`](configuracion_stt.md).
 
 ## 7) Levantar servicio systemd
 

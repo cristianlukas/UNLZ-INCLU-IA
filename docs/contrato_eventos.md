@@ -76,6 +76,44 @@ Payload:
 
 Uso: vaciar historial en todos los clientes.
 
+### `config`
+
+Payload:
+
+```json
+{
+  "driver": "faster_whisper",
+  "active_source": "faster_whisper",
+  "ap_ssid": "Inclu-IA_Classroom",
+  "ap_url": "http://192.168.4.1:5000",
+  "history_size": 200,
+  "socket_transport": "polling",
+  "fallback_to_simulator": false,
+  "last_error": null,
+  "status": {
+    "state": "idle",
+    "detail": "Reiniciando driver faster_whisper",
+    "t_server_ms": 1741710000000
+  },
+  "stt": {
+    "driver": "faster_whisper",
+    "driver_options": ["faster_whisper", "simulator", "whisper_cpp"],
+    "faster_model_size": "base",
+    "faster_compute_type": "int8",
+    "faster_language": "es",
+    "faster_phrase_time_limit_s": 3,
+    "faster_vad_filter": true,
+    "faster_queue_max_chunks": 6,
+    "whisper_cpp_threads": 4,
+    "whisper_cpp_step_ms": 2000,
+    "whisper_cpp_length_ms": 8000,
+    "whisper_cpp_vad_threshold": 0.6
+  }
+}
+```
+
+Uso: sincronizar clientes cuando se aplica una configuracion STT runtime desde la webapp o API.
+
 ## Eventos client -> server
 
 ### `clear_history`
@@ -85,6 +123,58 @@ Sin payload. Solicita limpieza de historial global.
 ## Endpoints HTTP asociados
 
 - `GET /api/config`
+- `POST /api/config`
 - `GET /api/history`
 - `POST /api/clear`
 - `GET /_health`
+
+### `GET /api/config`
+
+Devuelve la configuracion runtime actual, incluyendo driver activo, estado, fallback y parametros STT.
+
+### `POST /api/config`
+
+Aplica cambios runtime al STT y reinicia el transcriber.
+
+Payload aceptado:
+
+```json
+{
+  "driver": "simulator|faster_whisper|whisper_cpp",
+  "fallback_to_simulator": false,
+  "faster_model_size": "tiny|base|small",
+  "faster_phrase_time_limit_s": 3,
+  "faster_queue_max_chunks": 6,
+  "faster_vad_filter": true,
+  "whisper_cpp_threads": 4,
+  "whisper_cpp_step_ms": 2000,
+  "whisper_cpp_length_ms": 8000,
+  "whisper_cpp_vad_threshold": 0.6
+}
+```
+
+Respuesta exitosa:
+
+```json
+{
+  "ok": true,
+  "config": {
+    "driver": "faster_whisper",
+    "active_source": "faster_whisper",
+    "stt": {
+      "driver": "faster_whisper"
+    }
+  }
+}
+```
+
+Respuesta invalida:
+
+```json
+{
+  "ok": false,
+  "error": "Driver invalido: bad_driver. Usa simulator, faster_whisper o whisper_cpp."
+}
+```
+
+Nota: este endpoint no persiste cambios en `software/.env`; solo modifica el proceso actual.

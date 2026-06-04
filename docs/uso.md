@@ -4,6 +4,7 @@ Guias por sistema operativo:
 
 - Windows: [`docs/guia_windows.md`](guia_windows.md)
 - Linux / Raspberry Pi: [`docs/guia_linux.md`](guia_linux.md)
+- Configuracion STT: [`docs/configuracion_stt.md`](configuracion_stt.md)
 
 ## Inicio manual (sin systemd)
 
@@ -58,6 +59,25 @@ journalctl -u inclu-ia.service -f
 - `whisper_cpp`: opcion para tuning de latencia en edge, principalmente Raspberry/Linux.
 - Desde el menu ⚙️ de la webapp se puede cambiar el backend STT y parametros basicos en runtime.
 - Los cambios hechos desde la webapp aplican al proceso actual; para dejarlos fijos, copiar valores a `.env`.
+
+## Configuracion STT desde la webapp
+
+1. Abrir la webapp.
+2. Entrar al menu `⚙️`.
+3. Elegir `Backend STT`: `simulator`, `faster_whisper` o `whisper_cpp`.
+4. Ajustar parametros basicos:
+   - `Modelo FW`
+   - `Chunk FW (s)`
+   - `WCPP step (ms)`
+   - `WCPP length (ms)`
+   - `Fallback simulador`
+5. Presionar `Aplicar STT`.
+6. Esperar estado `Reiniciando driver ...` y luego `Escuchando`.
+
+Estos cambios reinician el transcriber en runtime. No editan `.env`.
+
+Para persistir la configuracion, copiar los valores a `software/.env`.
+La referencia completa esta en [`configuracion_stt.md`](configuracion_stt.md).
 
 ## Ajustes utiles de audio en Raspberry Pi
 

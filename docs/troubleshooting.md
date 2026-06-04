@@ -4,6 +4,7 @@ Guias por sistema operativo:
 
 - Windows: [`docs/guia_windows.md`](guia_windows.md)
 - Linux / Raspberry Pi: [`docs/guia_linux.md`](guia_linux.md)
+- Configuracion STT: [`docs/configuracion_stt.md`](configuracion_stt.md)
 
 ## El servidor no arranca
 
@@ -33,6 +34,7 @@ journalctl -u inclu-ia.service -n 200 --no-pager
 - Ver `last_error` en `GET /_health`; incluye tipo de excepcion, detalle y driver.
 - Si falla driver real y `INCLUIA_FALLBACK_SIM=1`, debe entrar a simulador.
 - Si no queres fallback, poner `INCLUIA_FALLBACK_SIM=0` para diagnostico estricto.
+- Desde la webapp, abrir `⚙️`, desactivar `Fallback simulador`, aplicar STT y leer el error real.
 
 Diagnostico estricto recomendado:
 
@@ -93,6 +95,14 @@ Usar `--load-model` solo cuando se quiera validar descarga/cache del modelo, por
   - `INCLUIA_WCPP_BIN`
   - `INCLUIA_WCPP_MODEL`
 - Ejecutar `scripts/download_models.sh`.
+- En Windows, ejecutar `powershell -ExecutionPolicy Bypass -File .\scripts\install_windows_backend.ps1`.
+- En Linux/Raspberry, ejecutar `sudo bash scripts/install_backend.sh` o `bash scripts/download_models.sh base /home/pi/whisper.cpp`.
+
+Check estricto:
+
+```bash
+INCLUIA_DRIVER=whisper_cpp INCLUIA_FALLBACK_SIM=0 python tools/check_stt_setup.py --json
+```
 
 ## Latencia alta
 
@@ -102,6 +112,7 @@ Usar `--load-model` solo cuando se quiera validar descarga/cache del modelo, por
 - En `faster_whisper`, bajar `INCLUIA_FW_PHRASE_LIMIT_S`.
 - En `whisper_cpp`, ajustar `INCLUIA_WCPP_STEP_MS` y `INCLUIA_WCPP_LENGTH_MS`.
 - Validar VAD activo (`INCLUIA_FW_VAD=1` o `-vth` en whisper.cpp).
+- Desde la UI, probar primero `simulator`, luego `faster_whisper`, luego `whisper_cpp`; no comparar STT si la red/UI todavia no esta estable.
 
 ## Seguridad WiFi
 
