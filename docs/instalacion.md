@@ -35,6 +35,18 @@ cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/install_backend.sh
 ```
 
+### Windows para pruebas locales
+
+En Windows, usar `faster_whisper` como driver recomendado. `whisper_cpp` requiere compilar
+`whisper.cpp` y configurar rutas manualmente.
+
+```powershell
+cd .\Inclu-IA
+powershell -ExecutionPolicy Bypass -File .\scripts\install_windows_backend.ps1
+```
+
+Si el script instala `ffmpeg`, cerrar y abrir PowerShell antes de volver a validar.
+
 ## 3) Configurar variables
 
 ```bash

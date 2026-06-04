@@ -49,8 +49,8 @@ journalctl -u inclu-ia.service -f
 ## Notas de driver
 
 - `simulator`: para desarrollo frontend y pruebas de red.
-- `faster_whisper`: pipeline Python simple para MVP.
-- `whisper_cpp`: opcion para tuning de latencia en edge.
+- `faster_whisper`: pipeline Python simple para MVP y pruebas locales en Windows.
+- `whisper_cpp`: opcion para tuning de latencia en edge, principalmente Raspberry/Linux.
 
 ## Ajustes utiles de audio en Raspberry Pi
 
@@ -80,11 +80,18 @@ INCLUIA_DRIVER=faster_whisper INCLUIA_FALLBACK_SIM=0 python server.py
 En Windows PowerShell:
 
 ```powershell
+cd .\Inclu-IA
+powershell -ExecutionPolicy Bypass -File .\scripts\install_windows_backend.ps1
 cd .\software
 $env:INCLUIA_DRIVER="faster_whisper"
 $env:INCLUIA_FALLBACK_SIM="0"
 .\.venv\Scripts\python .\tools\check_stt_setup.py
 ```
+
+No usar `whisper_cpp` en Windows salvo que `whisper.cpp` este compilado y esten definidas:
+
+- `INCLUIA_WCPP_BIN`
+- `INCLUIA_WCPP_MODEL`
 
 Listar dispositivos con PyAudio:
 

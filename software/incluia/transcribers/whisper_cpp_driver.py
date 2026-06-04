@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import platform
 import re
 import subprocess
 import time
@@ -17,6 +18,20 @@ NOISE_PATTERNS = (
     re.compile(r"^(?:processing|listening|init(?:ializ\w*)?|loaded)\b", re.IGNORECASE),
     re.compile(r"^(?:n_threads|n_processors|language)\s*=", re.IGNORECASE),
 )
+
+
+def _missing_file_detail(kind: str, path: str) -> str:
+    if platform.system().lower() == "windows":
+        return (
+            f"No existe {kind}: {path}. "
+            "En Windows, usar faster_whisper para pruebas rapidas o compilar whisper.cpp "
+            "y configurar INCLUIA_WCPP_BIN/INCLUIA_WCPP_MODEL."
+        )
+    return (
+        f"No existe {kind}: {path}. "
+        "Ejecutar bash scripts/download_models.sh base /home/pi/whisper.cpp "
+        "o configurar INCLUIA_WCPP_BIN/INCLUIA_WCPP_MODEL."
+    )
 
 
 def _extract_caption_text(raw_line: str) -> str | None:
@@ -70,12 +85,12 @@ class WhisperCppTranscriber(Transcriber):
         on_status: StatusCallback,
     ) -> None:
         if not os.path.exists(self.binary_path):
-            detail = f"No existe binario: {self.binary_path}"
+            detail = _missing_file_detail("binario", self.binary_path)
             on_status(StatusEvent(state="error", detail=detail))
             raise FileNotFoundError(detail)
 
         if not os.path.exists(self.model_path):
-            detail = f"No existe modelo: {self.model_path}"
+            detail = _missing_file_detail("modelo", self.model_path)
             on_status(StatusEvent(state="error", detail=detail))
             raise FileNotFoundError(detail)
 
