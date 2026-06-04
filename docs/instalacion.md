@@ -1,5 +1,10 @@
 # Instalacion
 
+Guias por sistema operativo:
+
+- Windows: [`docs/guia_windows.md`](guia_windows.md)
+- Linux / Raspberry Pi: [`docs/guia_linux.md`](guia_linux.md)
+
 ## 0) Prerrequisitos
 
 - Raspberry Pi OS 64-bit actualizado.
@@ -35,17 +40,7 @@ cd /home/pi/UNLZ-INCLU-IA
 sudo bash scripts/install_backend.sh
 ```
 
-### Windows para pruebas locales
-
-En Windows, usar `faster_whisper` como driver recomendado. `whisper_cpp` requiere compilar
-`whisper.cpp` y configurar rutas manualmente.
-
-```powershell
-cd .\Inclu-IA
-powershell -ExecutionPolicy Bypass -File .\scripts\install_windows_backend.ps1
-```
-
-Si el script instala `ffmpeg`, cerrar y abrir PowerShell antes de volver a validar.
+Para instalacion en Windows, usar la guia dedicada: [`guia_windows.md`](guia_windows.md).
 
 ## 3) Configurar variables
 

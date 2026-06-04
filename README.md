@@ -31,10 +31,12 @@ Leer en este orden:
 3. [`docs/plan_eluney_backend.md`](docs/plan_eluney_backend.md)
 4. [`docs/plan_patricio_frontend.md`](docs/plan_patricio_frontend.md)
 5. [`docs/contrato_eventos.md`](docs/contrato_eventos.md)
-6. [`docs/instalacion.md`](docs/instalacion.md)
-7. [`docs/uso.md`](docs/uso.md)
-8. [`docs/benchmark_raspi4_es.md`](docs/benchmark_raspi4_es.md)
-9. [`docs/benchmark_alt_asr_es.md`](docs/benchmark_alt_asr_es.md)
+6. [`docs/guia_windows.md`](docs/guia_windows.md)
+7. [`docs/guia_linux.md`](docs/guia_linux.md)
+8. [`docs/instalacion.md`](docs/instalacion.md)
+9. [`docs/uso.md`](docs/uso.md)
+10. [`docs/benchmark_raspi4_es.md`](docs/benchmark_raspi4_es.md)
+11. [`docs/benchmark_alt_asr_es.md`](docs/benchmark_alt_asr_es.md)
 
 `docs/plan_becarios.md` deja explicitamente documentado:
 
@@ -77,6 +79,8 @@ Inclu-IA/
 │   └── inclu-ia.service
 └── docs/
     ├── instalacion.md
+    ├── guia_windows.md
+    ├── guia_linux.md
     ├── uso.md
     ├── troubleshooting.md
     ├── contrato_eventos.md

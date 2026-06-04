@@ -1,5 +1,10 @@
 # Troubleshooting
 
+Guias por sistema operativo:
+
+- Windows: [`docs/guia_windows.md`](guia_windows.md)
+- Linux / Raspberry Pi: [`docs/guia_linux.md`](guia_linux.md)
+
 ## El servidor no arranca
 
 - Revisar dependencias:
