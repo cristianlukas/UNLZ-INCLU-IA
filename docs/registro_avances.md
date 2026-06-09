@@ -21,10 +21,16 @@ Este documento sirve como bitácora centralizada para que Patricio (Frontend) y 
   - 
 
 ### Semana 2
-- **Fecha:** DD/MM/AAAA
+- **Fecha:** 08/06/2026
 - **Avances:** 
+  - Realice la prueba larga de 20 minutos utilizando el perfil 1.
+  - Microfono Inalambrico F11-2 con conexion usb al adaptador UGREEN USB 3.0 Macho a USB-C Hembra.
+  - La duracion de la prueba fue de 20 minutos.
+  - El audio se saturo aproximadamente unas 64 veces, cabe destacar que al llegar a los 19 minutos de prueba estuvo saturado durante 1 minuto aproximadamente.
+  - La percepcion de la latencia es baja al comienzo, aproximadamente 10 segundos, que luego suben a 21 segundos y combinados con los eventos de saturacion llevan a una calidad no tan deseable.
+  - La decision es volver a realizar las pruebas con el perfil 2, si el mismo falla podriamos intentar mejorar un poco el hardware, el procesamiento de la pi4 se mantiene entre el 80% y 90%, pero la velocidad de generacion de subtitulos es suboptima.
 - **Problemas/Bloqueos:**
-
+  - Tuve inconvenientes al realizar una prueba manual del servidor con driver faster_whisper, lo reporte como issue y fue solucionado.
 ---
 
 ## Patricio (Frontend / UX / Accesibilidad)
