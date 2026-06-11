@@ -32,6 +32,18 @@ Este documento sirve como bitácora centralizada para que Patricio (Frontend) y 
 - **Problemas/Bloqueos:**
   - Tuve inconvenientes al realizar una prueba manual del servidor con driver faster_whisper, lo reporte como issue y fue solucionado.
 ---
+### Semana 3
+- **Fecha:** 10/06/2026
+- **Avances:** 
+  - Realice la prueba larga de 20 minutos utilizando el perfil 2.
+  - Microfono Inalambrico F11-2 con conexion usb al adaptador UGREEN USB 3.0 Macho a USB-C Hembra.
+  - La duracion de la prueba fue de 20 minutos.
+  - El audio se saturo unas 40 veces aproximadamente, cantidad menor que el perfil 1 pero con resultados menos deseables para los subtitulos.
+  - La percepcion de la latencia es media, de momentos se asemeja a tiempo real, pero luego se cuelga y tarda aproximadamente 30 segundos en generar los subtitulos sin descartar chunks viejos.
+  - El perfil que debemos utilizar por defecto para las pruebas es definitivamente el perfil 1, el perfil 2 no brinda ninguna ventaja y no se acerca lo suficiente a lo que el orador esta diciendo.
+- **Problemas/Bloqueos:**
+
+---
 
 ## Patricio (Frontend / UX / Accesibilidad)
 
