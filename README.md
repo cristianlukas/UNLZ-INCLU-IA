@@ -38,6 +38,7 @@ Leer en este orden:
 10. [`docs/uso.md`](docs/uso.md)
 11. [`docs/benchmark_raspi4_es.md`](docs/benchmark_raspi4_es.md)
 12. [`docs/benchmark_alt_asr_es.md`](docs/benchmark_alt_asr_es.md)
+13. [`docs/plan_traduccion_tiempo_real.md`](docs/plan_traduccion_tiempo_real.md)
 
 `docs/plan_becarios.md` deja explicitamente documentado:
 
